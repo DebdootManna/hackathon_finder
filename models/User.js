@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema({
     education: {
       level: {
         type: String,
-        enum: ['high-school', 'undergraduate', 'graduate', 'postgraduate', 'professional']
+        enum: ['high-school', 'bachelors', 'masters', 'phd', 'other']
       },
       field: String,
       institution: String
@@ -106,7 +106,7 @@ const UserSchema = new mongoose.Schema({
     },
     travelWillingness: {
       type: String,
-      enum: ['local-only', 'national', 'international'],
+      enum: ['local-only', 'regional', 'national', 'international'],
       default: 'local-only'
     },
     availableWeekends: { type: Boolean, default: true },
@@ -136,16 +136,6 @@ const UserSchema = new mongoose.Schema({
       default: Date.now
     }
   }],
-  preferences: {
-    emailNotifications: {
-      type: Boolean,
-      default: true
-    },
-    reminderDays: {
-      type: Number,
-      default: 3
-    }
-  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -171,14 +171,32 @@ router.get('/me', auth, async (req, res) => {
 router.put('/profile', auth, async (req, res) => {
   try {
     const updateData = { ...req.body };
+    
+    // Allow email updates but validate uniqueness
+    if (updateData.email && updateData.email !== req.user.email) {
+      const existingUser = await User.findOne({ email: updateData.email });
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'Email already in use by another account'
+        });
+      }
+    }
+    
     delete updateData.password; // Don't allow password updates through this route
-    delete updateData.email;    // Don't allow email updates
 
     const user = await User.findByIdAndUpdate(
       req.user._id,
       updateData,
       { new: true, runValidators: true }
     ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
 
     res.json({
       success: true,
@@ -187,6 +205,13 @@ router.put('/profile', auth, async (req, res) => {
     });
   } catch (error) {
     console.error('Update profile error:', error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: Object.values(error.errors).map(err => err.message)
+      });
+    }
     res.status(500).json({
       success: false,
       message: 'Server error while updating profile'

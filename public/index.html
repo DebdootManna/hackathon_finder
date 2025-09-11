@@ -649,7 +649,7 @@
     </div>
 
     <script>
-        const API_BASE = 'http://localhost:3001/api';
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
         let allHackathons = [];
         let currentUser = null;
 
@@ -674,6 +674,11 @@
             if (token) {
                 fetchUserProfile(token);
             }
+        }
+
+        // Initialize API base URL based on environment
+        function initializeAPI() {
+            console.log('API Base URL:', API_BASE);
         }
 
         // Fetch user profile

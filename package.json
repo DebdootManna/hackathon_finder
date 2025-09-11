@@ -6,10 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "client": "cd client && npm start",
-    "server": "nodemon server.js",
-    "build": "cd client && npm run build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "build": "echo 'Build complete'",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["hackathon", "mern", "mongodb", "express", "react", "nodejs"],
   "author": "Debdoot Manna",

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Hackathon Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .profile-email {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-bio {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .profile-details {
+            display: grid;
+            gap: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .skills-container {
+            margin-top: 20px;
+        }
+
+        .skills-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .preferences-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid #eee;
+        }
+
+        .preferences-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .preference-item {
+            margin-bottom: 10px;
+        }
+
+        .preference-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .preference-value {
+            color: #333;
+        }
+
+        .domains-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .domain-tag {
+            background: #e8f5e8;
+            color: #388e3c;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .activity-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hackathon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .hackathon-mini-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .hackathon-mini-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .hackathon-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .hackathon-organizer {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .hackathon-date {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-upcoming { background: #e3f2fd; color: #1976d2; }
+        .status-ongoing { background: #e8f5e8; color: #388e3c; }
+        .status-completed { background: #fce4ec; color: #c2185b; }
+        .status-registered { background: #fff3e0; color: #f57c00; }
+        .status-participating { background: #e1f5fe; color: #0277bd; }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .hackathon-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👤 User Profile</h1>
+            <a href="/" class="back-btn">← Back to Dashboard</a>
+        </div>
+
+        <div id="loading" class="loading">
+            Loading profile...
+        </div>
+
+        <div id="profileContent" style="display: none;">
+            <div class="profile-container">
+                <!-- Left Column - Profile Info -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">U</div>
+                        <div class="profile-name" id="profileName">User Name</div>
+                        <div class="profile-email" id="profileEmail">user@email.com</div>
+                        <div class="profile-bio" id="profileBio">User bio goes here...</div>
+                    </div>
+
+                    <div class="profile-details" id="profileDetails">
+                        <!-- Profile details will be populated here -->
+                    </div>
+
+                    <div class="skills-container" id="skillsContainer">
+                        <div class="skills-title">🛠️ Skills</div>
+                        <div class="skills-list" id="skillsList">
+                            <!-- Skills will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="preferences-section">
+                        <div class="preferences-title">🎯 Preferences</div>
+                        <div id="preferencesContent">
+                            <!-- Preferences will be populated here -->
+                        </div>
+                    </div>
+
+                    <button class="edit-btn" onclick="editProfile()">✏️ Edit Profile</button>
+                </div>
+
+                <!-- Right Column - Quick Stats -->
+                <div class="profile-card">
+                    <div class="section-title">📊 Quick Stats</div>
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Bookmarked Hackathons</span>
+                            <span class="detail-value" id="bookmarkedCount">0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Participated Events</span>
+                            <span class="detail-value" id="participatedCount">0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Member Since</span>
+                            <span class="detail-value" id="memberSince">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Experience Level</span>
+                            <span class="detail-value" id="experienceLevel">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookmarked Hackathons Section -->
+            <div class="activity-section">
+                <div class="section-title">
+                    🔖 Bookmarked Hackathons
+                    <span id="bookmarkedBadge" class="status-badge status-upcoming">0</span>
+                </div>
+                <div id="bookmarkedHackathons" class="hackathon-grid">
+                    <!-- Bookmarked hackathons will be populated here -->
+                </div>
+            </div>
+
+            <!-- Participation History Section -->
+            <div class="activity-section">
+                <div class="section-title">
+                    🏆 Participation History
+                    <span id="participationBadge" class="status-badge status-completed">0</span>
+                </div>
+                <div id="participationHistory" class="hackathon-grid">
+                    <!-- Participation history will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001/api';
+        let currentUser = null;
+
+        // Check authentication and load profile
+        async function loadProfile() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to view your profile');
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    currentUser = data.data;
+                    displayProfile(currentUser);
+                    await loadBookmarkedHackathons();
+                    await loadParticipationHistory();
+                } else {
+                    localStorage.removeItem('token');
+                    alert('Session expired. Please login again.');
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                alert('Error loading profile. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('profileContent').style.display = 'block';
+            }
+        }
+
+        // Display user profile information
+        function displayProfile(user) {
+            // Basic info
+            document.getElementById('profileAvatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('profileName').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileBio').textContent = user.profile?.bio || 'No bio available';
+
+            // Profile details
+            const detailsContainer = document.getElementById('profileDetails');
+            const details = [
+                { label: 'Age', value: user.age || 'Not specified' },
+                { label: 'Gender', value: user.gender?.replace('-', ' ') || 'Not specified' },
+                { label: 'Phone', value: user.phoneNumber || 'Not provided' },
+                { label: 'Location', value: user.profile?.location ? `${user.profile.location.city}, ${user.profile.location.country}` : 'Not specified' },
+                { label: 'Education', value: user.profile?.education?.level ? `${user.profile.education.level} in ${user.profile.education.field}` : 'Not specified' },
+                { label: 'Occupation', value: user.profile?.occupation?.title ? `${user.profile.occupation.title} at ${user.profile.occupation.company}` : 'Not specified' }
+            ];
+
+            detailsContainer.innerHTML = details.map(detail => `
+                <div class="detail-row">
+                    <span class="detail-label">${detail.label}</span>
+                    <span class="detail-value">${detail.value}</span>
+                </div>
+            `).join('');
+
+            // Skills
+            const skillsList = document.getElementById('skillsList');
+            if (user.profile?.skills && user.profile.skills.length > 0) {
+                skillsList.innerHTML = user.profile.skills.map(skill => 
+                    `<span class="skill-tag">${skill}</span>`
+                ).join('');
+            } else {
+                skillsList.innerHTML = '<span class="skill-tag">No skills listed</span>';
+            }
+
+            // Preferences
+            const preferencesContent = document.getElementById('preferencesContent');
+            const preferences = [
+                { 
+                    label: 'Preferred Domains', 
+                    value: user.preferences?.domains && user.preferences.domains.length > 0 
+                        ? user.preferences.domains.map(domain => `<span class="domain-tag">${domain.replace(/-/g, ' ')}</span>`).join(' ')
+                        : 'No preferences set'
+                },
+                { label: 'Team Preference', value: user.preferences?.teamPreference?.replace('-', ' ') || 'Any' },
+                { label: 'Travel Willingness', value: user.preferences?.travelWillingness?.replace('-', ' ') || 'Local only' },
+                { label: 'Available Weekends', value: user.preferences?.availableWeekends ? 'Yes' : 'No' },
+                { label: 'Available Weekdays', value: user.preferences?.availableWeekdays ? 'Yes' : 'No' }
+            ];
+
+            preferencesContent.innerHTML = preferences.map(pref => `
+                <div class="preference-item">
+                    <div class="preference-label">${pref.label}</div>
+                    <div class="preference-value">${pref.value}</div>
+                </div>
+            `).join('');
+
+            // Quick stats
+            document.getElementById('bookmarkedCount').textContent = user.bookmarkedHackathons?.length || 0;
+            document.getElementById('participatedCount').textContent = user.participatedHackathons?.length || 0;
+            document.getElementById('memberSince').textContent = new Date(user.createdAt).toLocaleDateString();
+            document.getElementById('experienceLevel').textContent = user.profile?.experience || 'Not specified';
+        }
+
+        // Load bookmarked hackathons
+        async function loadBookmarkedHackathons() {
+            const container = document.getElementById('bookmarkedHackathons');
+            const badge = document.getElementById('bookmarkedBadge');
+            
+            if (!currentUser.bookmarkedHackathons || currentUser.bookmarkedHackathons.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔖</div>
+                        <p>No bookmarked hackathons yet</p>
+                        <p>Start exploring and bookmark interesting events!</p>
+                    </div>
+                `;
+                badge.textContent = '0';
+                return;
+            }
+
+            try {
+                const hackathonPromises = currentUser.bookmarkedHackathons.map(id => 
+                    fetch(`${API_BASE}/hackathons/${id}`).then(res => res.json())
+                );
+                
+                const hackathonResults = await Promise.all(hackathonPromises);
+                const hackathons = hackathonResults.filter(result => result.success).map(result => result.data);
+
+                badge.textContent = hackathons.length;
+                
+                if (hackathons.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔖</div>
+                            <p>No bookmarked hackathons found</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = hackathons.map(hackathon => `
+                    <div class="hackathon-mini-card">
+                        <div class="hackathon-title">${hackathon.title}</div>
+                        <div class="hackathon-organizer">by ${hackathon.organizer}</div>
+                        <div class="hackathon-date">📅 ${new Date(hackathon.startDate).toLocaleDateString()}</div>
+                        <div class="hackathon-date">💰 ${hackathon.prizePool}</div>
+                        <span class="status-badge status-${hackathon.status}">${hackathon.status}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading bookmarked hackathons:', error);
+                container.innerHTML = '<p>Error loading bookmarked hackathons</p>';
+            }
+        }
+
+        // Load participation history
+        async function loadParticipationHistory() {
+            const container = document.getElementById('participationHistory');
+            const badge = document.getElementById('participationBadge');
+            
+            if (!currentUser.participatedHackathons || currentUser.participatedHackathons.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏆</div>
+                        <p>No participation history yet</p>
+                        <p>Register for hackathons to build your portfolio!</p>
+                    </div>
+                `;
+                badge.textContent = '0';
+                return;
+            }
+
+            try {
+                const hackathonPromises = currentUser.participatedHackathons.map(participation => 
+                    fetch(`${API_BASE}/hackathons/${participation.hackathon}`).then(res => res.json())
+                        .then(result => ({ ...result, participationStatus: participation.status, registeredAt: participation.registeredAt }))
+                );
+                
+                const hackathonResults = await Promise.all(hackathonPromises);
+                const hackathons = hackathonResults.filter(result => result.success);
+
+                badge.textContent = hackathons.length;
+                
+                if (hackathons.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🏆</div>
+                            <p>No participation history found</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = hackathons.map(result => {
+                    const hackathon = result.data;
+                    return `
+                        <div class="hackathon-mini-card">
+                            <div class="hackathon-title">${hackathon.title}</div>
+                            <div class="hackathon-organizer">by ${hackathon.organizer}</div>
+                            <div class="hackathon-date">📅 ${new Date(hackathon.startDate).toLocaleDateString()}</div>
+                            <div class="hackathon-date">📝 Registered: ${new Date(result.registeredAt).toLocaleDateString()}</div>
+                            <span class="status-badge status-${result.participationStatus}">${result.participationStatus}</span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading participation history:', error);
+                container.innerHTML = '<p>Error loading participation history</p>';
+            }
+        }
+
+        // Edit profile function (placeholder)
+        function editProfile() {
+            alert('Profile editing feature coming soon!');
+        }
+
+        // Load profile on page load
+        window.addEventListener('load', loadProfile);
+    </script>
+</body>
+</html>

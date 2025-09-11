@@ -711,10 +711,8 @@
         function logout() {
             localStorage.removeItem('token');
             currentUser = null;
-            updateAuthUI();
-            loadHackathons();
-            // Refresh the page to ensure clean state
-            window.location.reload();
+            // Force immediate page refresh without calling other functions
+            window.location.reload(true);
         }
 
         function viewProfile() {

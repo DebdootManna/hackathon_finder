@@ -673,9 +673,19 @@
         window.addEventListener('pageshow', function(event) {
             // Re-check auth status and reload hackathons when user navigates back
             if (event.persisted) {
+                console.log('Page restored from cache, reloading data');
                 checkAuthStatus();
-                loadHackathons();
+                // Add a small delay to ensure auth status is updated first
+                setTimeout(() => {
+                    loadHackathons();
+                }, 100);
             }
+        });
+
+        // Also listen for popstate events (back/forward navigation)
+        window.addEventListener('popstate', function(event) {
+            console.log('Navigation detected, reloading hackathons');
+            loadHackathons();
         });
 
         // Check if user is logged in
@@ -876,10 +886,13 @@
 
         async function loadHackathons() {
             try {
+                console.log('Loading hackathons...');
                 document.getElementById('loading').style.display = 'block';
                 
                 // Check if user is logged in for personalized results
                 const token = localStorage.getItem('token');
+                console.log('Token exists:', !!token);
+                
                 let endpoint = `${API_BASE}/hackathons`;
                 let headers = {};
                 
@@ -888,11 +901,20 @@
                     headers['Authorization'] = `Bearer ${token}`;
                 }
                 
+                console.log('Fetching from:', endpoint);
                 const response = await fetch(endpoint, { headers });
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 const data = await response.json();
+                console.log('API Response:', data);
                 
                 if (data.success) {
                     allHackathons = data.data;
+                    console.log('Hackathons loaded:', allHackathons.length);
                     displayHackathons(allHackathons);
                     updateStats(allHackathons);
                     
@@ -905,10 +927,10 @@
                 }
             } catch (error) {
                 console.error('Error loading hackathons:', error);
-                // Fallback to regular hackathons if personalized fails
-                if (token && (error.message.includes('401') || error.message.includes('403') || !response.ok)) {
+                // Always try fallback to regular hackathons if personalized fails
+                const token = localStorage.getItem('token');
+                if (token) {
                     console.log('Personalized API failed, falling back to regular hackathons');
-                    localStorage.removeItem('token');
                     try {
                         const fallbackResponse = await fetch(`${API_BASE}/hackathons`);
                         const fallbackData = await fallbackResponse.json();
@@ -922,8 +944,11 @@
                         console.error('Fallback also failed:', fallbackError);
                     }
                 }
-                document.getElementById('hackathonsList').innerHTML = 
-                    '<div class="error">Failed to load hackathons. Please try again later.</div>';
+                
+                const container = document.getElementById('hackathonsContainer');
+                if (container) {
+                    container.innerHTML = '<div class="error">Failed to load hackathons. Please try again later.</div>';
+                }
             } finally {
                 document.getElementById('loading').style.display = 'none';
             }
@@ -932,7 +957,12 @@
         function displayHackathons(hackathons) {
             const container = document.getElementById('hackathonsContainer');
             
-            if (hackathons.length === 0) {
+            if (!container) {
+                console.error('hackathonsContainer element not found');
+                return;
+            }
+            
+            if (!hackathons || hackathons.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: white;">No hackathons found.</p>';
                 return;
             }

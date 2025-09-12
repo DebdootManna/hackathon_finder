@@ -5,43 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Details - Hackathon Finder</title>
     <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-inverse: #ffffff;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --input-border: #ced4da;
+            --button-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-secondary: #6c757d;
+            --accent-color: #667eea;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-inverse: #0d1117;
+            --border-color: #30363d;
+            --card-bg: #21262d;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --input-bg: #21262d;
+            --input-border: #30363d;
+            --button-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+            --button-secondary: #30363d;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --warning-color: #d29922;
+            --danger-color: #da3633;
+            --info-color: #1f6feb;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            background: var(--bg-primary);
             min-height: 100vh;
         }
 
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
             padding: 1rem 0;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
             position: sticky;
             top: 0;
+            border-bottom: 1px solid var(--border-color);
             z-index: 100;
         }
 
-        .nav-container {
+        .nav-content {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
-            color: #667eea;
+            color: var(--accent-color);
             text-decoration: none;
         }
 
@@ -51,31 +97,60 @@
             align-items: center;
         }
 
-        .nav-links a {
-            color: #333;
+        .nav-link {
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: #667eea;
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.active {
+            background: var(--accent-color);
+            color: var(--text-inverse);
         }
 
         .container {
             max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg-primary);
         }
 
         .event-header {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .event-header::before {
@@ -85,19 +160,19 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--button-primary);
         }
 
         .event-title {
             font-size: 2.5rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 1rem;
             font-weight: 700;
         }
 
         .event-organizer {
             font-size: 1.2rem;
-            color: #667eea;
+            color: var(--accent-color);
             margin-bottom: 2rem;
             font-weight: 600;
         }
@@ -105,49 +180,51 @@
         .event-meta {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 1rem;
             margin-bottom: 2rem;
         }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            color: var(--text-secondary);
         }
 
         .meta-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--button-primary);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--text-inverse);
             font-size: 1.2rem;
         }
 
         .meta-content h4 {
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
         .meta-content p {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
         .event-description {
-            background: white;
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 3rem;
             margin-bottom: 2rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .section-title {
             font-size: 1.8rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 1.5rem;
             font-weight: 600;
         }
@@ -155,7 +232,7 @@
         .description-text {
             font-size: 1.1rem;
             line-height: 1.8;
-            color: #555;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
         }
 
@@ -167,14 +244,15 @@
         }
 
         .detail-card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .detail-card h3 {
-            color: #667eea;
+            color: var(--accent-color);
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
@@ -187,8 +265,8 @@
         }
 
         .tag {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             padding: 0.5rem 1rem;
             border-radius: 25px;
             font-size: 0.85rem;
@@ -202,41 +280,47 @@
         }
 
         .skill {
-            background: #f8f9ff;
-            color: #667eea;
+            background: var(--bg-secondary);
+            color: var(--accent-color);
             padding: 0.5rem 1rem;
             border-radius: 15px;
             font-size: 0.85rem;
-            border: 1px solid #e8f0fe;
+            border: 1px solid var(--border-color);
         }
 
         .register-section {
-            background: white;
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 3rem;
             text-align: center;
+            border: 1px solid var(--border-color);
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
         }
 
         .register-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             border: none;
-            padding: 1rem 3rem;
+            padding: 1rem 2rem;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
+            width: 100%;
+            margin-bottom: 1rem;
         }
 
         .register-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .register-btn:disabled {
+            background: var(--button-secondary);
+            cursor: not-allowed;
+            transform: none;
         }
 
         .status-badge {
@@ -323,11 +407,16 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">🚀 Hackathon Finder</a>
+        <div class="nav-content">
+            <a href="index.html" class="logo">🚀 Hackathon Finder</a>
             <div class="nav-links">
-                <a href="/">Home</a>
-                <a href="/profile.html">Profile</a>
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <span class="theme-icon" id="lightIcon">☀️</span>
+                    <span class="theme-icon" id="darkIcon">🌙</span>
+                </div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="admin.html" class="nav-link">Admin</a>
             </div>
         </div>
     </nav>
@@ -415,7 +504,7 @@
 
             <div class="register-section">
                 <h2>Ready to Participate?</h2>
-                <p>Join this amazing hackathon and showcase your skills!</p>
+                <p><br></p>
                 <a id="registerBtn" href="#" class="register-btn">Register Now</a>
             </div>
         </div>
@@ -424,12 +513,44 @@
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
         
-        // Get hackathon ID from URL parameters
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const lightIcon = document.getElementById('lightIcon');
+            const darkIcon = document.getElementById('darkIcon');
+            
+            if (theme === 'dark') {
+                lightIcon.classList.remove('active');
+                darkIcon.classList.add('active');
+            } else {
+                darkIcon.classList.remove('active');
+                lightIcon.classList.add('active');
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
+
+        // Get hackathon ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const hackathonId = urlParams.get('id');
 
         if (!hackathonId) {
-            showError();
+            document.getElementById('loadingState').innerHTML = 'No hackathon ID provided';
         } else {
             loadEventDetails(hackathonId);
         }

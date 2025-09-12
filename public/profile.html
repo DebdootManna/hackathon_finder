@@ -5,17 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile - Hackathon Finder</title>
     <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-inverse: #ffffff;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --input-border: #ced4da;
+            --button-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-secondary: #6c757d;
+            --accent-color: #667eea;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-inverse: #0d1117;
+            --border-color: #30363d;
+            --card-bg: #21262d;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --input-bg: #21262d;
+            --input-border: #30363d;
+            --button-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+            --button-secondary: #30363d;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --warning-color: #d29922;
+            --danger-color: #da3633;
+            --info-color: #1f6feb;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-inverse);
+            background: var(--bg-gradient);
             min-height: 100vh;
         }
 
@@ -30,7 +75,37 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            color: white;
+            color: var(--text-inverse);
+        }
+
+        .theme-toggle {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.active {
+            background: var(--accent-color);
+            color: var(--text-inverse);
         }
 
         .header h1 {
@@ -39,7 +114,7 @@
 
         .back-btn {
             background: rgba(255,255,255,0.2);
-            color: white;
+            color: var(--text-inverse);
             border: 2px solid rgba(255,255,255,0.3);
             padding: 10px 20px;
             border-radius: 8px;
@@ -60,10 +135,11 @@
         }
 
         .profile-card {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .profile-header {
@@ -75,13 +151,13 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--button-primary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
             font-weight: bold;
-            color: white;
+            color: var(--text-inverse);
             margin: 0 auto 20px;
         }
 
@@ -89,17 +165,17 @@
             font-size: 2rem;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .profile-email {
-            color: #667eea;
+            color: var(--accent-color);
             font-size: 1.1rem;
             margin-bottom: 15px;
         }
 
         .profile-bio {
-            color: #666;
+            color: var(--text-secondary);
             font-style: italic;
             margin-bottom: 20px;
         }
@@ -113,16 +189,16 @@
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .detail-label {
             font-weight: 600;
-            color: #555;
+            color: var(--text-secondary);
         }
 
         .detail-value {
-            color: #333;
+            color: var(--text-primary);
         }
 
         .skills-container {
@@ -132,7 +208,7 @@
         .skills-title {
             font-weight: bold;
             margin-bottom: 10px;
-            color: #667eea;
+            color: var(--accent-color);
         }
 
         .skills-list {
@@ -142,24 +218,25 @@
         }
 
         .skill-tag {
-            background: #f0f4ff;
-            color: #667eea;
+            background: var(--bg-secondary);
+            color: var(--accent-color);
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
+            border: 1px solid var(--border-color);
         }
 
         .preferences-section {
             margin-top: 25px;
             padding-top: 25px;
-            border-top: 2px solid #eee;
+            border-top: 2px solid var(--border-color);
         }
 
         .preferences-title {
             font-weight: bold;
             margin-bottom: 15px;
-            color: #667eea;
+            color: var(--accent-color);
             font-size: 1.2rem;
         }
 
@@ -169,12 +246,12 @@
 
         .preference-label {
             font-weight: 600;
-            color: #555;
+            color: var(--text-secondary);
             margin-bottom: 5px;
         }
 
         .preference-value {
-            color: #333;
+            color: var(--text-primary);
         }
 
         .domains-list {
@@ -184,26 +261,28 @@
         }
 
         .domain-tag {
-            background: #e8f5e8;
-            color: #388e3c;
+            background: rgba(35, 134, 54, 0.1);
+            color: var(--success-color);
             padding: 4px 10px;
             border-radius: 15px;
             font-size: 0.85rem;
+            border: 1px solid var(--success-color);
         }
 
         .activity-section {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: var(--card-shadow);
             margin-bottom: 30px;
+            border: 1px solid var(--border-color);
         }
 
         .section-title {
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 20px;
-            color: #333;
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -216,31 +295,32 @@
         }
 
         .hackathon-mini-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 20px;
             transition: all 0.3s;
+            background: var(--bg-secondary);
         }
 
         .hackathon-mini-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
         }
 
         .hackathon-title {
             font-weight: bold;
             margin-bottom: 8px;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .hackathon-organizer {
-            color: #667eea;
+            color: var(--accent-color);
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
 
         .hackathon-date {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.85rem;
             margin-bottom: 10px;
         }
@@ -261,11 +341,11 @@
         .status-participating { background: #e1f5fe; color: #0277bd; }
 
         .edit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             border: none;
             padding: 12px 24px;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.2s;
@@ -280,14 +360,14 @@
         .loading {
             text-align: center;
             padding: 40px;
-            color: white;
+            color: var(--text-inverse);
             font-size: 1.2rem;
         }
 
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .empty-state-icon {
@@ -530,7 +610,13 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>👤 User Profile</h1>
+            <div style="display: flex; align-items: center;">
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <span class="theme-icon" id="lightIcon">☀️</span>
+                    <span class="theme-icon" id="darkIcon">🌙</span>
+                </div>
+                <h1>👤 User Profile</h1>
+            </div>
             <a href="/" class="back-btn">← Back to Dashboard</a>
         </div>
 
@@ -775,6 +861,38 @@
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
         let currentUser = null;
+
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const lightIcon = document.getElementById('lightIcon');
+            const darkIcon = document.getElementById('darkIcon');
+            
+            if (theme === 'dark') {
+                lightIcon.classList.remove('active');
+                darkIcon.classList.add('active');
+            } else {
+                darkIcon.classList.remove('active');
+                lightIcon.classList.add('active');
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
 
         // Check authentication and load profile
         async function loadProfile() {

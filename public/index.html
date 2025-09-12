@@ -3,51 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackathon Finder - Discover Global Hackathons</title>
+    <title>Hackathon X - Discover Global Hackathons</title>
     <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-inverse: #ffffff;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --input-border: #ced4da;
+            --button-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-secondary: #6c757d;
+            --accent-color: #667eea;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-inverse: #0d1117;
+            --border-color: #30363d;
+            --card-bg: #21262d;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --input-bg: #21262d;
+            --input-border: #30363d;
+            --button-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+            --button-secondary: #30363d;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --warning-color: #d29922;
+            --danger-color: #da3633;
+            --info-color: #1f6feb;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-gradient);
             min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            color: var(--text-inverse);
         }
 
         header {
             text-align: center;
             margin-bottom: 40px;
-            color: white;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.active {
+            background: var(--accent-color);
+            color: var(--text-inverse);
+        }
+
+        .header-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 50px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .header-content {
+            background: rgba(33, 38, 45, 0.8);
+            border: 1px solid var(--border-color);
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.554);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        [data-theme="dark"] h1 {
+            background: linear-gradient(135deg, #58a6ff, #1f6feb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             opacity: 0.9;
+            margin-bottom: 30px;
+            font-weight: 300;
         }
 
         .search-section {
-            background: white;
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
             margin-bottom: 40px;
+            border: 1px solid var(--border-color);
         }
 
         .search-bar {
@@ -58,32 +159,48 @@
         }
 
         input, select, button {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border: 2px solid var(--input-border);
+            border-radius: 12px;
             font-size: 16px;
+            font-family: inherit;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
 
-        input[type="text"] {
+        input, select {
             flex: 1;
-            min-width: 300px;
+            min-width: 200px;
         }
 
-        select {
-            min-width: 150px;
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+        }
+
+        [data-theme="dark"] input:focus, [data-theme="dark"] select:focus {
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             border: none;
             cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.3);
+        }
+
+        [data-theme="dark"] button:hover {
+            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.4);
         }
 
         .filters {
@@ -99,36 +216,55 @@
         }
 
         .hackathon-card {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-left: 5px solid #667eea;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hackathon-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--button-primary);
         }
 
         .hackathon-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        [data-theme="dark"] .hackathon-card:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
         }
 
         .hackathon-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            line-height: 1.3;
         }
 
         .hackathon-organizer {
-            color: #667eea;
+            color: var(--accent-color);
             font-weight: 600;
             margin-bottom: 15px;
+            font-size: 0.95rem;
         }
 
         .hackathon-description {
-            color: #666;
-            margin-bottom: 15px;
-            line-height: 1.5;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         .hackathon-details {
@@ -143,11 +279,12 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            color: var(--text-secondary);
         }
 
         .detail-label {
             font-weight: 600;
-            color: #555;
+            color: var(--text-primary);
         }
 
         .status-badge {
@@ -222,7 +359,8 @@
         }
 
         .modal-content {
-            background-color: white;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
             margin: 2% auto;
             padding: 25px;
             border-radius: 15px;
@@ -231,11 +369,12 @@
             max-height: 90vh;
             position: relative;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .close {
-            color: #aaa;
+            color: var(--text-secondary);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -246,7 +385,7 @@
         }
 
         .close:hover {
-            color: #000;
+            color: var(--text-primary);
         }
 
         .auth-form {
@@ -257,22 +396,23 @@
         
         .auth-form input, .auth-form select {
             padding: 12px;
-            border: 2px solid #e1e5e9;
+            border: 2px solid var(--input-border);
             border-radius: 8px;
             font-size: 14px;
             transition: all 0.3s;
-            background: white;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
         
         .auth-form input:focus, .auth-form select:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--accent-color);
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .auth-form button[type="submit"] {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             border: none;
             padding: 14px;
             border-radius: 8px;
@@ -461,10 +601,16 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚀 Hackathon Finder</h1>
-            <p class="subtitle">Discover and participate in global hackathon events</p>
-            
-            <!-- User Authentication Section -->
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <span class="theme-icon" id="lightIcon">☀️</span>
+                <span class="theme-icon" id="darkIcon">🌙</span>
+            </div>
+            <div class="header-content">
+                <h1>Hackathon X</h1>
+            </div>
+        </header>
+
+        <!-- User Authentication Section -->
             <div id="authSection" class="user-info">
                 <div id="guestSection">
                     <div class="auth-buttons">
@@ -1076,6 +1222,43 @@
                 searchHackathons();
             }
         });
+
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const lightIcon = document.getElementById('lightIcon');
+            const darkIcon = document.getElementById('darkIcon');
+            
+            if (theme === 'dark') {
+                lightIcon.classList.remove('active');
+                darkIcon.classList.add('active');
+            } else {
+                darkIcon.classList.remove('active');
+                lightIcon.classList.add('active');
+            }
+        }
+
+        // Initialize app
+        function initApp() {
+            initTheme();
+            checkAuthStatus();
+            loadHackathons();
+            populateDomainCheckboxes();
+        }
 
         // Load hackathons on page load
         window.addEventListener('load', initApp);

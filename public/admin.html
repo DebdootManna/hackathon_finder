@@ -5,28 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Hackathon Finder</title>
     <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-inverse: #ffffff;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --input-border: #ced4da;
+            --button-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-secondary: #6c757d;
+            --accent-color: #667eea;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-inverse: #0d1117;
+            --border-color: #30363d;
+            --card-bg: #21262d;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --input-bg: #21262d;
+            --input-border: #30363d;
+            --button-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+            --button-secondary: #30363d;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --warning-color: #d29922;
+            --danger-color: #da3633;
+            --info-color: #1f6feb;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-primary);
+            background: var(--bg-gradient);
             min-height: 100vh;
         }
 
         .navbar {
-            background: rgba(173, 47, 47, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .navbar-content {
@@ -40,7 +86,36 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #667eea;
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.active {
+            background: var(--accent-color);
+            color: var(--text-inverse);
         }
 
         .nav-links {
@@ -50,14 +125,14 @@
         }
 
         .nav-link {
-            color: #333;
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-link:hover {
-            color: #667eea;
+            color: var(--accent-color);
         }
 
         .container {
@@ -74,17 +149,18 @@
         }
 
         .login-card {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: var(--card-shadow);
             width: 100%;
             max-width: 400px;
+            border: 1px solid var(--border-color);
         }
 
         .login-card h2 {
             text-align: center;
-            color: #667eea;
+            color: var(--accent-color);
             margin-bottom: 30px;
         }
 
@@ -92,22 +168,25 @@
             width: 100%;
             padding: 15px;
             margin-bottom: 20px;
-            border: 2px solid #e8f0fe;
-            border-radius: 8px;
+            border: 2px solid var(--input-border);
+            border-radius: 12px;
             font-size: 16px;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
 
         .dashboard-section {
-            background: white;
-            border-radius: 15px;
+            background: var(--card-bg);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
         }
 
         .admin-header {
             text-align: center;
             margin-bottom: 3rem;
-            color: white;
+            color: var(--text-inverse);
         }
 
         .admin-header h1 {
@@ -121,16 +200,16 @@
         }
 
         .status-card {
-            background: #f8f9ff;
-            border: 2px solid #e8f0fe;
-            border-radius: 12px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
             padding: 20px;
             margin-bottom: 20px;
         }
 
         .status-title {
             font-weight: bold;
-            color: #667eea;
+            color: var(--accent-color);
             margin-bottom: 15px;
             font-size: 1.2rem;
         }
@@ -145,29 +224,29 @@
         .status-item {
             text-align: center;
             padding: 15px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
 
         .status-number {
             font-size: 2rem;
             font-weight: bold;
-            color: #667eea;
+            color: var(--accent-color);
         }
 
         .status-label {
             font-size: 0.9rem;
-            color: #666;
+            color: var(--text-secondary);
             margin-top: 5px;
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             border: none;
             padding: 15px 30px;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
@@ -189,21 +268,21 @@
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: var(--button-secondary);
         }
 
         .btn-success {
-            background: #28a745;
+            background: var(--success-color);
         }
 
         .btn-danger {
-            background: #dc3545;
+            background: var(--danger-color);
         }
 
         .loading {
             text-align: center;
             padding: 20px;
-            color: #667eea;
+            color: var(--accent-color);
         }
 
         .result {
@@ -215,15 +294,15 @@
         }
 
         .result.success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
+            background: rgba(35, 134, 54, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
         }
 
         .result.error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
+            background: rgba(218, 54, 51, 0.1);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
         }
 
         .actions {
@@ -232,25 +311,25 @@
         }
 
         .warning {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
+            background: rgba(217, 153, 34, 0.1);
+            border: 1px solid var(--warning-color);
+            color: var(--warning-color);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 20px;
         }
 
         .info {
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            color: #0c5460;
+            background: rgba(31, 111, 235, 0.1);
+            border: 1px solid var(--info-color);
+            color: var(--info-color);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 20px;
         }
 
         .error-message {
-            color: #dc3545;
+            color: var(--danger-color);
             margin-top: 10px;
             font-size: 14px;
         }
@@ -258,8 +337,9 @@
         .management-section {
             margin: 30px 0;
             padding: 20px;
-            background: #f8f9ff;
-            border-radius: 12px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
         }
 
         .management-actions {
@@ -386,18 +466,31 @@
 
         <!-- Admin Dashboard -->
         <div id="dashboardSection" class="dashboard-section" style="display: none;">
+            <nav class="navbar">
+                <div class="navbar-content">
+                    <div class="logo">🔧 Admin Dashboard</div>
+                    <div class="nav-links">
+                        <div class="theme-toggle" onclick="toggleTheme()">
+                            <span class="theme-icon" id="lightIcon">☀️</span>
+                            <span class="theme-icon" id="darkIcon">🌙</span>
+                        </div>
+                        <a href="/" class="nav-link">Home</a>
+                        <a href="/profile.html" class="nav-link">Profile</a>
+                        <button id="logoutBtn" class="btn btn-secondary" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </nav>
             <div class="admin-header">
                 <h1>🛠️ Admin Dashboard</h1>
                 <p>Manage Hackathons & Database</p>
-                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
             </div>
 
-        <div class="status-card">
-            <div class="status-title">📊 Database Status</div>
-            <div id="statusContent">
-                <div class="loading">Loading database status...</div>
+            <div class="status-card">
+                <div class="status-title">📊 Database Status</div>
+                <div id="statusContent">
+                    <div class="loading">Loading database status...</div>
+                </div>
             </div>
-        </div>
 
             <!-- Hackathon Management Section -->
             <div class="management-section">
@@ -471,9 +564,44 @@
 
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
+        let currentUser = null;
 
-        // Check database status
-        async function checkStatus() {
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const lightIcon = document.getElementById('lightIcon');
+            const darkIcon = document.getElementById('darkIcon');
+            
+            if (lightIcon && darkIcon) {
+                if (theme === 'dark') {
+                    lightIcon.classList.remove('active');
+                    darkIcon.classList.add('active');
+                } else {
+                    darkIcon.classList.remove('active');
+                    lightIcon.classList.add('active');
+                }
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
+
+        // Check if user is logged in and is admin
+        async function checkAdminAuth() {
             const statusContent = document.getElementById('statusContent');
             const checkBtn = document.getElementById('checkStatusBtn');
             

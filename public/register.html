@@ -5,28 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register for Hackathon - Hackathon Finder</title>
     <style>
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-inverse: #ffffff;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --input-border: #ced4da;
+            --button-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --button-secondary: #6c757d;
+            --accent-color: #667eea;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-inverse: #0d1117;
+            --border-color: #30363d;
+            --card-bg: #21262d;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --input-bg: #21262d;
+            --input-border: #30363d;
+            --button-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
+            --button-secondary: #30363d;
+            --accent-color: #58a6ff;
+            --success-color: #238636;
+            --warning-color: #d29922;
+            --danger-color: #da3633;
+            --info-color: #1f6feb;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-inverse);
+            background: var(--bg-gradient);
             min-height: 100vh;
         }
 
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             padding: 1rem 0;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .nav-container {
@@ -41,7 +87,7 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #667eea;
+            color: var(--accent-color);
             text-decoration: none;
         }
 
@@ -52,14 +98,43 @@
         }
 
         .nav-links a {
-            color: #333;
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: #667eea;
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.active {
+            background: var(--accent-color);
+            color: var(--text-inverse);
         }
 
         .container {
@@ -70,8 +145,8 @@
 
         .back-btn {
             background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
+            color: var(--text-inverse);
+            border: 2px solid var(--text-inverse);
             padding: 0.75rem 2rem;
             border-radius: 25px;
             text-decoration: none;
@@ -82,17 +157,18 @@
         }
 
         .back-btn:hover {
-            background: white;
-            color: #667eea;
+            background: var(--card-bg);
+            color: var(--accent-color);
         }
 
         .registration-card {
-            background: white;
-            border-radius: 20px;
+            background: var(--card-bg);
+            border-radius: 24px;
             padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
 
         .registration-card::before {
@@ -102,7 +178,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--button-primary);
         }
 
         .form-header {
@@ -112,20 +188,20 @@
 
         .form-title {
             font-size: 2.5rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
 
         .form-subtitle {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1.1rem;
         }
 
         .event-info {
-            background: #f8f9ff;
-            border: 2px solid #e8f0fe;
-            border-radius: 15px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
             padding: 2rem;
             margin-bottom: 3rem;
             text-align: center;
@@ -133,18 +209,18 @@
 
         .event-name {
             font-size: 1.5rem;
-            color: #667eea;
+            color: var(--accent-color);
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .event-organizer {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 1rem;
         }
 
         .event-dates {
-            color: #333;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
@@ -154,7 +230,7 @@
 
         .section-title {
             font-size: 1.3rem;
-            color: #333;
+            color: var(--text-primary);
             margin-bottom: 1rem;
             font-weight: 600;
             display: flex;
@@ -169,27 +245,28 @@
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #333;
+            color: var(--text-primary);
             font-weight: 500;
         }
 
         .required {
-            color: #e74c3c;
+            color: var(--danger-color);
         }
 
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 1rem;
-            border: 2px solid #e8f0fe;
-            border-radius: 10px;
+            border: 2px solid var(--input-border);
+            border-radius: 12px;
             font-size: 1rem;
             transition: all 0.3s;
-            background: white;
+            background: var(--input-bg);
+            color: var(--text-primary);
         }
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--accent-color);
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
@@ -214,21 +291,21 @@
         .checkbox-item input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: #667eea;
+            accent-color: var(--accent-color);
         }
 
         .team-section {
-            background: #f8f9ff;
-            border: 2px solid #e8f0fe;
-            border-radius: 15px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
         }
 
         .team-member {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
             padding: 1.5rem;
             margin-bottom: 1rem;
         }
@@ -242,28 +319,30 @@
 
         .member-number {
             font-weight: 600;
-            color: #667eea;
+            color: var(--accent-color);
         }
 
         .remove-member {
-            background: #e74c3c;
-            color: white;
+            background: var(--danger-color);
+            color: var(--text-inverse);
             border: none;
             padding: 0.5rem 1rem;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.9rem;
+            transition: all 0.3s;
         }
 
         .add-member {
-            background: #667eea;
-            color: white;
+            background: var(--accent-color);
+            color: var(--text-inverse);
             border: none;
             padding: 1rem 2rem;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 500;
             margin-top: 1rem;
+            transition: all 0.3s;
         }
 
         .form-row {
@@ -280,8 +359,8 @@
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-primary);
+            color: var(--text-inverse);
             border: none;
             padding: 1.2rem 3rem;
             border-radius: 50px;
@@ -310,19 +389,21 @@
         }
 
         .error {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(218, 54, 51, 0.1);
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
             padding: 1rem;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 1rem;
             text-align: center;
         }
 
         .success {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(35, 134, 54, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
             padding: 2rem;
-            border-radius: 15px;
+            border-radius: 20px;
             text-align: center;
             margin-bottom: 2rem;
         }
@@ -355,6 +436,10 @@
         <div class="nav-container">
             <a href="/" class="logo">🚀 Hackathon Finder</a>
             <div class="nav-links">
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <span class="theme-icon" id="lightIcon">☀️</span>
+                    <span class="theme-icon" id="darkIcon">🌙</span>
+                </div>
                 <a href="/">Home</a>
                 <a href="/profile.html">Profile</a>
             </div>
@@ -536,6 +621,38 @@
 
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
+        
+        // Theme management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const lightIcon = document.getElementById('lightIcon');
+            const darkIcon = document.getElementById('darkIcon');
+            
+            if (theme === 'dark') {
+                lightIcon.classList.remove('active');
+                darkIcon.classList.add('active');
+            } else {
+                darkIcon.classList.remove('active');
+                lightIcon.classList.add('active');
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
         
         // Get hackathon ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);

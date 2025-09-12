@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const Hackathon = require('../models/Hackathon');
-const auth = require('../middleware/auth');
+const { auth, adminAuth } = require('../middleware/auth');
 
 // @route   GET /api/hackathons
 // @desc    Get all hackathons with optional filtering
@@ -102,8 +102,8 @@ router.get('/:id', async (req, res) => {
 
 // @route   POST /api/hackathons
 // @desc    Create a new hackathon
-// @access  Public (In production, this should be protected)
-router.post('/', [
+// @access  Private (Admin only)
+router.post('/', adminAuth, [
   body('title').notEmpty().withMessage('Title is required'),
   body('description').notEmpty().withMessage('Description is required'),
   body('organizer').notEmpty().withMessage('Organizer is required'),
@@ -143,8 +143,8 @@ router.post('/', [
 
 // @route   PUT /api/hackathons/:id
 // @desc    Update a hackathon
-// @access  Public (In production, this should be protected)
-router.put('/:id', async (req, res) => {
+// @access  Private (Admin only)
+router.put('/:id', adminAuth, async (req, res) => {
   try {
     const hackathon = await Hackathon.findByIdAndUpdate(
       req.params.id,
@@ -181,8 +181,8 @@ router.put('/:id', async (req, res) => {
 
 // @route   DELETE /api/hackathons/:id
 // @desc    Delete a hackathon
-// @access  Public (In production, this should be protected)
-router.delete('/:id', async (req, res) => {
+// @access  Private (Admin only)
+router.delete('/:id', adminAuth, async (req, res) => {
   try {
     const hackathon = await Hackathon.findByIdAndDelete(req.params.id);
 

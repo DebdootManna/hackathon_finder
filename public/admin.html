@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Hackathon Finder</title>
+    <title>Admin Dashboard - Hackathon Finder</title>
     <style>
         * {
             margin: 0;
@@ -17,32 +17,107 @@
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+        }
+
+        .navbar {
+            background: rgba(173, 47, 47, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #667eea;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+        }
+
+        .login-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #e8f0fe;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .dashboard-section {
             background: white;
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        .header {
+        .admin-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 3rem;
+            color: white;
         }
 
-        .header h1 {
-            color: #667eea;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .admin-header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
         }
 
-        .header p {
-            color: #666;
-            font-size: 1.1rem;
+        .admin-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
 
         .status-card {
@@ -173,18 +248,149 @@
             border-radius: 8px;
             margin-bottom: 20px;
         }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .management-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 12px;
+        }
+
+        .management-actions {
+            margin-bottom: 20px;
+        }
+
+        .hackathons-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .hackathon-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hackathon-info h3 {
+            margin: 0 0 5px 0;
+            color: #667eea;
+        }
+
+        .hackathon-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .hackathon-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row input, .form-row select {
+            flex: 1;
+        }
+
+        #hackathonForm input, #hackathonForm select, #hackathonForm textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #e8f0fe;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        #hackathonForm textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🔧 Admin Panel</h1>
-            <p>Database Management for Hackathon Finder</p>
+        <!-- Login Section -->
+        <div id="loginSection" class="login-section">
+            <div class="login-card">
+                <h2>🔐 Admin Login</h2>
+                <form id="loginForm">
+                    <input type="email" id="adminEmail" placeholder="Admin Email" required>
+                    <input type="password" id="adminPassword" placeholder="Password" required>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <div id="loginError" class="error-message"></div>
+            </div>
         </div>
 
-        <div class="info">
-            <strong>Instructions:</strong> Use this panel to seed your production database with sample data. This should only be done once when deploying to production.
-        </div>
+        <!-- Admin Dashboard -->
+        <div id="dashboardSection" class="dashboard-section" style="display: none;">
+            <div class="admin-header">
+                <h1>🛠️ Admin Dashboard</h1>
+                <p>Manage Hackathons & Database</p>
+                <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+            </div>
 
         <div class="status-card">
             <div class="status-title">📊 Database Status</div>
@@ -193,13 +399,74 @@
             </div>
         </div>
 
-        <div class="actions">
-            <button id="checkStatusBtn" class="btn btn-secondary" onclick="checkStatus()">🔍 Check Status</button>
-            <button id="seedBtn" class="btn" onclick="seedDatabase()">🌱 Seed Database</button>
-            <a href="/" class="btn btn-secondary">← Back to App</a>
-        </div>
+            <!-- Hackathon Management Section -->
+            <div class="management-section">
+                <h2>📋 Hackathon Management</h2>
+                <div class="management-actions">
+                    <button id="addHackathonBtn" class="btn">➕ Add New Hackathon</button>
+                    <button id="refreshListBtn" class="btn btn-secondary">🔄 Refresh List</button>
+                </div>
+                <div id="hackathonsList" class="hackathons-list"></div>
+            </div>
 
-        <div id="result"></div>
+            <!-- Database Actions -->
+            <div class="actions">
+                <button id="checkStatusBtn" class="btn btn-secondary" onclick="checkStatus()">🔍 Check Status</button>
+                <button id="seedBtn" class="btn" onclick="seedDatabase()">🌱 Seed Database</button>
+                <a href="/" class="btn btn-secondary">← Back to App</a>
+            </div>
+
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <!-- Hackathon Form Modal -->
+    <div id="hackathonModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Add New Hackathon</h2>
+            <form id="hackathonForm">
+                <div class="form-row">
+                    <input type="text" id="title" placeholder="Hackathon Title" required>
+                    <input type="text" id="organizer" placeholder="Organizer" required>
+                </div>
+                <textarea id="description" placeholder="Description" required></textarea>
+                <div class="form-row">
+                    <input type="datetime-local" id="startDate" required>
+                    <input type="datetime-local" id="endDate" required>
+                </div>
+                <div class="form-row">
+                    <input type="datetime-local" id="registrationDeadline" required>
+                    <select id="mode" required>
+                        <option value="">Select Mode</option>
+                        <option value="online">Online</option>
+                        <option value="offline">Offline</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+                <input type="text" id="location" placeholder="Location/Venue" required>
+                <input type="text" id="themes" placeholder="Themes (comma-separated)">
+                <input type="text" id="technologies" placeholder="Technologies (comma-separated)">
+                <div class="form-row">
+                    <select id="difficulty">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                    <input type="number" id="maxParticipants" placeholder="Max Participants">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="prizeFirst" placeholder="First Prize">
+                    <input type="text" id="prizeSecond" placeholder="Second Prize">
+                    <input type="text" id="prizeThird" placeholder="Third Prize">
+                </div>
+                <input type="url" id="registrationLink" placeholder="Registration Link" required>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Save Hackathon</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -329,8 +596,257 @@ Please check your internet connection and try again.
             }
         }
 
-        // Load status on page load
-        window.addEventListener('load', checkStatus);
+        let currentHackathonId = null;
+        let adminToken = localStorage.getItem('adminToken');
+
+        // Authentication functions
+        async function login(email, password) {
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.data.user.role === 'admin') {
+                    adminToken = data.data.token;
+                    localStorage.setItem('adminToken', adminToken);
+                    showDashboard();
+                    loadHackathons();
+                    checkStatus();
+                    return true;
+                } else {
+                    throw new Error(data.message || 'Invalid admin credentials');
+                }
+            } catch (error) {
+                document.getElementById('loginError').textContent = error.message;
+                return false;
+            }
+        }
+
+        function logout() {
+            adminToken = null;
+            localStorage.removeItem('adminToken');
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboardSection').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+        }
+
+        // Hackathon CRUD operations
+        async function loadHackathons() {
+            try {
+                const response = await fetch(`${API_BASE}/hackathons`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayHackathonsList(data.data);
+                }
+            } catch (error) {
+                console.error('Error loading hackathons:', error);
+            }
+        }
+
+        function displayHackathonsList(hackathons) {
+            const container = document.getElementById('hackathonsList');
+            
+            if (hackathons.length === 0) {
+                container.innerHTML = '<p>No hackathons found.</p>';
+                return;
+            }
+
+            container.innerHTML = hackathons.map(hackathon => `
+                <div class="hackathon-item">
+                    <div class="hackathon-info">
+                        <h3>${hackathon.title}</h3>
+                        <p><strong>Organizer:</strong> ${hackathon.organizer}</p>
+                        <p><strong>Date:</strong> ${new Date(hackathon.startDate).toLocaleDateString()} - ${new Date(hackathon.endDate).toLocaleDateString()}</p>
+                        <p><strong>Mode:</strong> ${hackathon.mode} | <strong>Status:</strong> ${hackathon.status}</p>
+                    </div>
+                    <div class="hackathon-actions">
+                        <button class="btn btn-small btn-secondary" onclick="editHackathon('${hackathon._id}')">✏️ Edit</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteHackathon('${hackathon._id}')">🗑️ Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function saveHackathon(hackathonData) {
+            try {
+                const url = currentHackathonId 
+                    ? `${API_BASE}/hackathons/${currentHackathonId}`
+                    : `${API_BASE}/hackathons`;
+                
+                const method = currentHackathonId ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify(hackathonData)
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    closeModal();
+                    loadHackathons();
+                    showResult(`Hackathon ${currentHackathonId ? 'updated' : 'created'} successfully!`, 'success');
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function deleteHackathon(id) {
+            if (!confirm('Are you sure you want to delete this hackathon?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/hackathons/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${adminToken}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    loadHackathons();
+                    showResult('Hackathon deleted successfully!', 'success');
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                showResult(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function editHackathon(id) {
+            try {
+                const response = await fetch(`${API_BASE}/hackathons/${id}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const hackathon = data.data;
+                    currentHackathonId = id;
+                    
+                    // Populate form
+                    document.getElementById('title').value = hackathon.title;
+                    document.getElementById('organizer').value = hackathon.organizer;
+                    document.getElementById('description').value = hackathon.description;
+                    document.getElementById('startDate').value = new Date(hackathon.startDate).toISOString().slice(0, 16);
+                    document.getElementById('endDate').value = new Date(hackathon.endDate).toISOString().slice(0, 16);
+                    document.getElementById('registrationDeadline').value = new Date(hackathon.registrationDeadline).toISOString().slice(0, 16);
+                    document.getElementById('mode').value = hackathon.mode;
+                    document.getElementById('location').value = hackathon.location;
+                    document.getElementById('themes').value = hackathon.themes?.join(', ') || '';
+                    document.getElementById('technologies').value = hackathon.technologies?.join(', ') || '';
+                    document.getElementById('difficulty').value = hackathon.difficulty;
+                    document.getElementById('maxParticipants').value = hackathon.maxParticipants;
+                    document.getElementById('prizeFirst').value = hackathon.prizes?.first || '';
+                    document.getElementById('prizeSecond').value = hackathon.prizes?.second || '';
+                    document.getElementById('prizeThird').value = hackathon.prizes?.third || '';
+                    document.getElementById('registrationLink').value = hackathon.registrationLink;
+                    
+                    document.getElementById('modalTitle').textContent = 'Edit Hackathon';
+                    document.getElementById('hackathonModal').style.display = 'block';
+                }
+            } catch (error) {
+                showResult(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        function openAddModal() {
+            currentHackathonId = null;
+            document.getElementById('hackathonForm').reset();
+            document.getElementById('modalTitle').textContent = 'Add New Hackathon';
+            document.getElementById('hackathonModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('hackathonModal').style.display = 'none';
+            currentHackathonId = null;
+        }
+
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<div class="result ${type}">${message}</div>`;
+            setTimeout(() => {
+                resultDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        // Event listeners
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            await login(email, password);
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('addHackathonBtn').addEventListener('click', openAddModal);
+        document.getElementById('refreshListBtn').addEventListener('click', loadHackathons);
+
+        document.getElementById('hackathonForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('title').value,
+                organizer: document.getElementById('organizer').value,
+                description: document.getElementById('description').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                registrationDeadline: document.getElementById('registrationDeadline').value,
+                mode: document.getElementById('mode').value,
+                location: document.getElementById('location').value,
+                themes: document.getElementById('themes').value.split(',').map(t => t.trim()).filter(t => t),
+                technologies: document.getElementById('technologies').value.split(',').map(t => t.trim()).filter(t => t),
+                difficulty: document.getElementById('difficulty').value,
+                maxParticipants: parseInt(document.getElementById('maxParticipants').value) || 100,
+                prizes: {
+                    first: document.getElementById('prizeFirst').value,
+                    second: document.getElementById('prizeSecond').value,
+                    third: document.getElementById('prizeThird').value
+                },
+                registrationLink: document.getElementById('registrationLink').value
+            };
+            
+            await saveHackathon(formData);
+        });
+
+        document.querySelector('.close').addEventListener('click', closeModal);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('hackathonModal')) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            if (adminToken) {
+                showDashboard();
+                loadHackathons();
+                checkStatus();
+            } else {
+                showLogin();
+            }
+        });
     </script>
 </body>
 </html>

@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+const { auth, adminAuth } = require('../middleware/auth');
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -48,6 +48,7 @@ router.post('/signup', [
       name,
       email,
       password,
+      role: 'user', // Default role
       age,
       gender,
       phoneNumber,
@@ -297,6 +298,142 @@ router.post('/participate/:hackathonId', auth, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error while registering participation'
+    });
+  }
+});
+
+// @route   POST /api/auth/admin/register
+// @desc    Register a new admin user
+// @access  Private (Admin only)
+router.post('/admin/register', adminAuth, [
+  body('name').notEmpty().withMessage('Name is required'),
+  body('email').isEmail().withMessage('Valid email is required'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array()
+      });
+    }
+
+    const { name, email, password } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'User with this email already exists'
+      });
+    }
+
+    // Create new admin user
+    const adminUser = new User({
+      name,
+      email,
+      password,
+      role: 'admin'
+    });
+
+    await adminUser.save();
+
+    // Generate token
+    const token = generateToken(adminUser._id);
+
+    // Remove password from response
+    const userResponse = adminUser.toObject();
+    delete userResponse.password;
+
+    res.status(201).json({
+      success: true,
+      message: 'Admin user created successfully',
+      data: {
+        user: userResponse,
+        token
+      }
+    });
+  } catch (error) {
+    console.error('Admin registration error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during admin registration'
+    });
+  }
+});
+
+// @route   POST /api/auth/create-first-admin
+// @desc    Create the first admin user (only works if no admins exist)
+// @access  Public
+router.post('/create-first-admin', [
+  body('name').notEmpty().withMessage('Name is required'),
+  body('email').isEmail().withMessage('Valid email is required'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('adminKey').equals('HACKATHON_FINDER_ADMIN_2024').withMessage('Invalid admin key')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation errors',
+        errors: errors.array()
+      });
+    }
+
+    // Check if any admin already exists
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      return res.status(400).json({
+        success: false,
+        message: 'Admin user already exists. Use regular admin registration.'
+      });
+    }
+
+    const { name, email, password } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'User with this email already exists'
+      });
+    }
+
+    // Create first admin user
+    const adminUser = new User({
+      name,
+      email,
+      password,
+      role: 'admin'
+    });
+
+    await adminUser.save();
+
+    // Generate token
+    const token = generateToken(adminUser._id);
+
+    // Remove password from response
+    const userResponse = adminUser.toObject();
+    delete userResponse.password;
+
+    res.status(201).json({
+      success: true,
+      message: 'First admin user created successfully',
+      data: {
+        user: userResponse,
+        token
+      }
+    });
+  } catch (error) {
+    console.error('First admin creation error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during first admin creation'
     });
   }
 });

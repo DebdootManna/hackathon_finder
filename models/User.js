@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema({
     education: {
       level: {
         type: String,
-        enum: ['high-school', 'bachelors', 'masters', 'phd', 'other']
+        enum: ['high-school', 'undergraduate', 'bachelors', 'graduate', 'masters', 'postgraduate', 'phd', 'other']
       },
       field: String,
       institution: String

@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register for Hackathon - Hackathon Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .registration-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .registration-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .form-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .event-info {
+            background: #f8f9ff;
+            border: 2px solid #e8f0fe;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .event-name {
+            font-size: 1.5rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-organizer {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .event-dates {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e8f0fe;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .team-section {
+            background: #f8f9ff;
+            border: 2px solid #e8f0fe;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-member {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-member-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .member-number {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .remove-member {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .add-member {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .registration-card {
+                padding: 2rem;
+            }
+            
+            .form-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">🚀 Hackathon Finder</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/profile.html">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="#" id="backBtn" class="back-btn">← Back to Event Details</a>
+        
+        <div id="loadingState" class="loading">
+            Loading registration form...
+        </div>
+
+        <div id="registrationForm" class="registration-card" style="display: none;">
+            <div class="form-header">
+                <h1 class="form-title">Register for Hackathon</h1>
+                <p class="form-subtitle">Fill out the details below to secure your spot</p>
+            </div>
+
+            <div id="eventInfo" class="event-info">
+                <div class="event-name" id="eventName"></div>
+                <div class="event-organizer" id="eventOrganizer"></div>
+                <div class="event-dates" id="eventDates"></div>
+            </div>
+
+            <div id="errorMessage" class="error" style="display: none;"></div>
+            <div id="successMessage" class="success" style="display: none;"></div>
+
+            <form id="hackathonRegistrationForm">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3 class="section-title">👤 Personal Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Age</label>
+                            <input type="number" id="age" class="form-input" min="13" max="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Institution/Organization</label>
+                        <input type="text" id="institution" class="form-input">
+                    </div>
+                </div>
+
+                <!-- Experience & Skills -->
+                <div class="form-section">
+                    <h3 class="section-title">💻 Experience & Skills</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Experience Level <span class="required">*</span></label>
+                            <select id="experience" class="form-select" required>
+                                <option value="">Select your level</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Preferred Role</label>
+                            <select id="role" class="form-select">
+                                <option value="">Select your role</option>
+                                <option value="developer">Developer</option>
+                                <option value="designer">Designer</option>
+                                <option value="project-manager">Project Manager</option>
+                                <option value="data-scientist">Data Scientist</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Technical Skills (comma separated)</label>
+                        <input type="text" id="skills" class="form-input" placeholder="e.g., JavaScript, Python, React, Node.js">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Previous Hackathon Experience</label>
+                        <textarea id="previousExperience" class="form-textarea" placeholder="Tell us about your previous hackathon experiences..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Team Information -->
+                <div class="team-section">
+                    <h3 class="section-title">👥 Team Information</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Team Name</label>
+                        <input type="text" id="teamName" class="form-input" placeholder="Enter your team name (optional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Team Formation</label>
+                        <select id="teamFormation" class="form-select">
+                            <option value="solo">Participating Solo</option>
+                            <option value="existing">Have an Existing Team</option>
+                            <option value="looking">Looking for Team Members</option>
+                        </select>
+                    </div>
+
+                    <div id="teamMembersSection" style="display: none;">
+                        <label class="form-label">Team Members</label>
+                        <div id="teamMembers"></div>
+                        <button type="button" id="addMemberBtn" class="add-member">+ Add Team Member</button>
+                    </div>
+                </div>
+
+                <!-- Project Idea -->
+                <div class="form-section">
+                    <h3 class="section-title">💡 Project Information</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Project Idea (Optional)</label>
+                        <textarea id="projectIdea" class="form-textarea" placeholder="Briefly describe your project idea or what you'd like to work on..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Motivation</label>
+                        <textarea id="motivation" class="form-textarea" placeholder="Why do you want to participate in this hackathon?"></textarea>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-section">
+                    <h3 class="section-title">📋 Additional Information</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Dietary Restrictions/Allergies</label>
+                        <input type="text" id="dietary" class="form-input" placeholder="Any dietary restrictions or allergies?">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">T-Shirt Size</label>
+                        <select id="tshirtSize" class="form-select">
+                            <option value="">Select size</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Additional Comments</label>
+                        <textarea id="comments" class="form-textarea" placeholder="Any additional information you'd like to share..."></textarea>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        Complete Registration
+                    </button>
+                    <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                        By registering, you agree to the hackathon terms and conditions.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
+        
+        // Get hackathon ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const hackathonId = urlParams.get('id');
+        let currentHackathon = null;
+        let teamMemberCount = 0;
+
+        if (!hackathonId) {
+            showError('Invalid hackathon ID');
+        } else {
+            loadHackathonInfo(hackathonId);
+        }
+
+        // Set back button URL
+        document.getElementById('backBtn').href = `/event-details.html?id=${hackathonId}`;
+
+        async function loadHackathonInfo(id) {
+            try {
+                const response = await fetch(`${API_BASE}/hackathons/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Hackathon not found');
+                }
+
+                const data = await response.json();
+                currentHackathon = data.data;
+                displayHackathonInfo(currentHackathon);
+                
+                // Hide loading, show form
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('registrationForm').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error loading hackathon:', error);
+                showError('Failed to load hackathon information');
+            }
+        }
+
+        function displayHackathonInfo(hackathon) {
+            document.getElementById('eventName').textContent = hackathon.title;
+            document.getElementById('eventOrganizer').textContent = `by ${hackathon.organizer}`;
+            
+            const startDate = new Date(hackathon.startDate).toLocaleDateString();
+            const endDate = new Date(hackathon.endDate).toLocaleDateString();
+            document.getElementById('eventDates').textContent = `${startDate} - ${endDate}`;
+        }
+
+        // Team formation handling
+        document.getElementById('teamFormation').addEventListener('change', function() {
+            const teamMembersSection = document.getElementById('teamMembersSection');
+            if (this.value === 'existing') {
+                teamMembersSection.style.display = 'block';
+            } else {
+                teamMembersSection.style.display = 'none';
+            }
+        });
+
+        // Add team member functionality
+        document.getElementById('addMemberBtn').addEventListener('click', function() {
+            if (currentHackathon && teamMemberCount < currentHackathon.teamSize.max - 1) {
+                addTeamMember();
+            } else {
+                alert(`Maximum team size is ${currentHackathon.teamSize.max} members`);
+            }
+        });
+
+        function addTeamMember() {
+            teamMemberCount++;
+            const teamMembersDiv = document.getElementById('teamMembers');
+            
+            const memberDiv = document.createElement('div');
+            memberDiv.className = 'team-member';
+            memberDiv.innerHTML = `
+                <div class="team-member-header">
+                    <span class="member-number">Team Member ${teamMemberCount}</span>
+                    <button type="button" class="remove-member" onclick="removeTeamMember(this)">Remove</button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-input member-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input member-email" required>
+                    </div>
+                </div>
+            `;
+            
+            teamMembersDiv.appendChild(memberDiv);
+        }
+
+        function removeTeamMember(button) {
+            button.closest('.team-member').remove();
+            teamMemberCount--;
+            
+            // Update member numbers
+            const members = document.querySelectorAll('.member-number');
+            members.forEach((member, index) => {
+                member.textContent = `Team Member ${index + 1}`;
+            });
+        }
+
+        // Form submission
+        document.getElementById('hackathonRegistrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registering...';
+            
+            try {
+                const formData = collectFormData();
+                await submitRegistration(formData);
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showError('Registration failed. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Complete Registration';
+            }
+        });
+
+        function collectFormData() {
+            const teamMembers = [];
+            const memberDivs = document.querySelectorAll('.team-member');
+            
+            memberDivs.forEach(div => {
+                const name = div.querySelector('.member-name').value;
+                const email = div.querySelector('.member-email').value;
+                if (name && email) {
+                    teamMembers.push({ name, email });
+                }
+            });
+
+            return {
+                personalInfo: {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    university: document.getElementById('university').value,
+                    graduationYear: parseInt(document.getElementById('graduationYear').value)
+                },
+                experience: {
+                    hackathonsAttended: parseInt(document.getElementById('hackathonsAttended').value),
+                    programmingExperience: document.getElementById('programmingExperience').value,
+                    skills: document.getElementById('skills').value.split(',').map(s => s.trim()).filter(s => s)
+                },
+                teamInfo: {
+                    hasTeam: document.getElementById('hasTeam').checked,
+                    teamMembers: teamMembers,
+                    lookingForTeammates: document.getElementById('lookingForTeammates').checked
+                },
+                projectInfo: {
+                    projectIdea: document.getElementById('projectIdea').value,
+                    motivation: document.getElementById('motivation').value
+                },
+                additionalInfo: {
+                    dietaryRestrictions: document.getElementById('dietaryRestrictions').value,
+                    tshirtSize: document.getElementById('tshirtSize').value,
+                    additionalComments: document.getElementById('additionalComments').value
+                }
+            };
+        }
+
+        async function submitRegistration(formData) {
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                alert('Please log in to register for hackathons.');
+                window.location.href = '/index.html';
+                return;
+            }
+
+            const response = await fetch(`${API_BASE}/hackathons/${hackathonId}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                showSuccess(`Registration successful! Registration ID: ${result.data.registrationId}`);
+                // Redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = `/event-details.html?id=${hackathonId}`;
+                }, 3000);
+            } else {
+                throw new Error(result.message || 'Registration failed');
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            
+            document.getElementById('loadingState').style.display = 'none';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.innerHTML = `<h3>🎉 Success!</h3><p>${message}</p>`;
+            successDiv.style.display = 'block';
+            
+            // Hide form
+            document.getElementById('hackathonRegistrationForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

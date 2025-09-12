@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - Hackathon Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .event-header {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .event-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .event-organizer {
+            font-size: 1.2rem;
+            color: #667eea;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .event-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .meta-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .meta-content h4 {
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .meta-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .event-description {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .description-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .detail-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill {
+            background: #f8f9ff;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            border: 1px solid #e8f0fe;
+        }
+
+        .register-section {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 1rem;
+        }
+
+        .status-upcoming {
+            background: #e8f5e8;
+            color: #2d5a2d;
+        }
+
+        .status-ongoing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .event-title {
+                font-size: 2rem;
+            }
+            
+            .event-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .event-header, .event-description, .detail-card, .register-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">🚀 Hackathon Finder</a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/profile.html">Profile</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <a href="/" class="back-btn">← Back to Hackathons</a>
+        
+        <div id="loadingState" class="loading">
+            Loading event details...
+        </div>
+
+        <div id="errorState" class="error" style="display: none;">
+            <h3>Event Not Found</h3>
+            <p>The requested hackathon could not be found.</p>
+        </div>
+
+        <div id="eventContent" style="display: none;">
+            <div class="event-header">
+                <h1 id="eventTitle" class="event-title"></h1>
+                <p id="eventOrganizer" class="event-organizer"></p>
+                <span id="eventStatus" class="status-badge"></span>
+                
+                <div class="event-meta">
+                    <div class="meta-item">
+                        <div class="meta-icon">📅</div>
+                        <div class="meta-content">
+                            <h4>Event Dates</h4>
+                            <p id="eventDates"></p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">📍</div>
+                        <div class="meta-content">
+                            <h4>Location</h4>
+                            <p id="eventLocation"></p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">🏆</div>
+                        <div class="meta-content">
+                            <h4>Prize Pool</h4>
+                            <p id="eventPrize"></p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">👥</div>
+                        <div class="meta-content">
+                            <h4>Team Size</h4>
+                            <p id="eventTeamSize"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-description">
+                <h2 class="section-title">About This Hackathon</h2>
+                <p id="eventDescription" class="description-text"></p>
+            </div>
+
+            <div class="event-details">
+                <div class="detail-card">
+                    <h3>🏷️ Themes & Categories</h3>
+                    <div id="eventThemes" class="tags"></div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>💻 Technologies</h3>
+                    <div id="eventTechnologies" class="skills-list"></div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>📋 Requirements</h3>
+                    <p id="eventEligibility"></p>
+                    <div style="margin-top: 1rem;">
+                        <strong>Difficulty:</strong> <span id="eventDifficulty"></span>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>🔗 Links</h3>
+                    <p><strong>Registration Deadline:</strong> <span id="eventDeadline"></span></p>
+                    <p><strong>Website:</strong> <a id="eventWebsite" href="#" target="_blank">Visit Website</a></p>
+                </div>
+            </div>
+
+            <div class="register-section">
+                <h2>Ready to Participate?</h2>
+                <p>Join this amazing hackathon and showcase your skills!</p>
+                <a id="registerBtn" href="#" class="register-btn">Register Now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
+        
+        // Get hackathon ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const hackathonId = urlParams.get('id');
+
+        if (!hackathonId) {
+            showError();
+        } else {
+            loadEventDetails(hackathonId);
+        }
+
+        async function loadEventDetails(id) {
+            try {
+                const response = await fetch(`${API_BASE}/hackathons/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error('Hackathon not found');
+                }
+
+                const data = await response.json();
+                displayEventDetails(data.data);
+                
+            } catch (error) {
+                console.error('Error loading event:', error);
+                showError();
+            }
+        }
+
+        function displayEventDetails(hackathon) {
+            // Hide loading, show content
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('eventContent').style.display = 'block';
+
+            // Basic info
+            document.getElementById('eventTitle').textContent = hackathon.title;
+            document.getElementById('eventOrganizer').textContent = `by ${hackathon.organizer}`;
+            document.getElementById('eventDescription').textContent = hackathon.description;
+
+            // Status badge
+            const statusBadge = document.getElementById('eventStatus');
+            statusBadge.textContent = hackathon.status;
+            statusBadge.className = `status-badge status-${hackathon.status}`;
+
+            // Dates
+            const startDate = new Date(hackathon.startDate).toLocaleDateString();
+            const endDate = new Date(hackathon.endDate).toLocaleDateString();
+            document.getElementById('eventDates').textContent = `${startDate} - ${endDate}`;
+
+            // Location and mode
+            document.getElementById('eventLocation').textContent = `${hackathon.location} (${hackathon.mode})`;
+
+            // Prize and team size
+            document.getElementById('eventPrize').textContent = hackathon.prizePool;
+            document.getElementById('eventTeamSize').textContent = `${hackathon.teamSize.min}-${hackathon.teamSize.max} members`;
+
+            // Themes
+            const themesContainer = document.getElementById('eventThemes');
+            hackathon.themes.forEach(theme => {
+                const tag = document.createElement('span');
+                tag.className = 'tag';
+                tag.textContent = theme.replace('-', ' ').toUpperCase();
+                themesContainer.appendChild(tag);
+            });
+
+            // Technologies
+            const techContainer = document.getElementById('eventTechnologies');
+            hackathon.technologies.forEach(tech => {
+                const skill = document.createElement('span');
+                skill.className = 'skill';
+                skill.textContent = tech;
+                techContainer.appendChild(skill);
+            });
+
+            // Requirements and difficulty
+            document.getElementById('eventEligibility').textContent = hackathon.eligibility;
+            document.getElementById('eventDifficulty').textContent = hackathon.difficulty.toUpperCase();
+
+            // Deadline and website
+            const deadline = new Date(hackathon.registrationDeadline).toLocaleDateString();
+            document.getElementById('eventDeadline').textContent = deadline;
+            
+            const websiteLink = document.getElementById('eventWebsite');
+            websiteLink.href = hackathon.websiteUrl;
+            websiteLink.textContent = hackathon.websiteUrl;
+
+            // Register button
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.href = `/register.html?id=${hackathon._id}`;
+        }
+
+        function showError() {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -671,9 +671,10 @@
         // Check auth status on page load and navigation
         window.addEventListener('load', initApp);
         window.addEventListener('pageshow', function(event) {
-            // Re-check auth status when user navigates back
+            // Re-check auth status and reload hackathons when user navigates back
             if (event.persisted) {
                 checkAuthStatus();
+                loadHackathons();
             }
         });
 
@@ -848,21 +849,81 @@
             }
         }
 
+        function showPersonalizationMessage(message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 1rem 2rem;
+                margin: 1rem 0;
+                border-radius: 10px;
+                text-align: center;
+                font-weight: 500;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            `;
+            messageDiv.innerHTML = `🎯 ${message}`;
+            
+            const container = document.querySelector('.hackathons-section');
+            container.insertBefore(messageDiv, container.firstChild);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                messageDiv.style.opacity = '0';
+                messageDiv.style.transition = 'opacity 0.5s';
+                setTimeout(() => messageDiv.remove(), 500);
+            }, 5000);
+        }
+
         async function loadHackathons() {
             try {
                 document.getElementById('loading').style.display = 'block';
-                const response = await fetch(`${API_BASE}/hackathons`);
+                
+                // Check if user is logged in for personalized results
+                const token = localStorage.getItem('token');
+                let endpoint = `${API_BASE}/hackathons`;
+                let headers = {};
+                
+                if (token) {
+                    endpoint = `${API_BASE}/hackathons/personalized`;
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                const response = await fetch(endpoint, { headers });
                 const data = await response.json();
                 
                 if (data.success) {
                     allHackathons = data.data;
                     displayHackathons(allHackathons);
                     updateStats(allHackathons);
+                    
+                    // Show personalization message if applicable
+                    if (token && data.message) {
+                        showPersonalizationMessage(data.message);
+                    }
+                } else {
+                    throw new Error(data.message || 'Failed to load hackathons');
                 }
             } catch (error) {
                 console.error('Error loading hackathons:', error);
-                document.getElementById('hackathonsContainer').innerHTML = 
-                    '<p style="text-align: center; color: white;">Error loading hackathons. Please try again.</p>';
+                // Fallback to regular hackathons if personalized fails
+                if (token && (error.message.includes('401') || error.message.includes('403') || !response.ok)) {
+                    console.log('Personalized API failed, falling back to regular hackathons');
+                    localStorage.removeItem('token');
+                    try {
+                        const fallbackResponse = await fetch(`${API_BASE}/hackathons`);
+                        const fallbackData = await fallbackResponse.json();
+                        if (fallbackData.success) {
+                            allHackathons = fallbackData.data;
+                            displayHackathons(allHackathons);
+                            updateStats(allHackathons);
+                            return;
+                        }
+                    } catch (fallbackError) {
+                        console.error('Fallback also failed:', fallbackError);
+                    }
+                }
+                document.getElementById('hackathonsList').innerHTML = 
+                    '<div class="error">Failed to load hackathons. Please try again later.</div>';
             } finally {
                 document.getElementById('loading').style.display = 'none';
             }
@@ -920,8 +981,8 @@
                         ${hackathon.themes.map(theme => `<span class="theme-tag">${theme}</span>`).join('')}
                     </div>
 
-                    <a href="${hackathon.registrationLink}" target="_blank" class="register-btn">
-                        🎯 Register Now
+                    <a href="/event-details.html?id=${hackathon._id}" class="register-btn">
+                        📋 View Details
                     </a>
                 </div>
             `).join('');

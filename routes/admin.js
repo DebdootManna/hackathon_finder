@@ -33,171 +33,116 @@ router.post('/seed', async (req, res) => {
         title: "Global AI Innovation Challenge 2024",
         organizer: "TechCorp International",
         description: "Join the world's largest AI hackathon where innovators build solutions using artificial intelligence and machine learning technologies.",
+        location: "San Francisco, CA (Hybrid)",
+        mode: "hybrid",
         startDate: new Date('2024-03-15'),
         endDate: new Date('2024-03-17'),
         registrationDeadline: new Date('2024-03-10'),
-        location: {
-          type: "hybrid",
-          venue: "San Francisco, CA (Hybrid)",
-          address: "123 Tech Street, San Francisco, CA 94105"
-        },
         prizePool: "$100,000",
-        maxTeamSize: 4,
+        teamSize: {
+          min: 2,
+          max: 4
+        },
         themes: ["artificial-intelligence", "machine-learning", "data-science"],
         technologies: ["Python", "TensorFlow", "PyTorch", "JavaScript", "React"],
         difficulty: "intermediate",
         status: "upcoming",
-        requirements: ["Basic programming knowledge", "Team of 2-4 members"],
-        rules: ["Original code only", "48-hour time limit", "Open source preferred"],
-        sponsors: ["TechCorp", "AI Ventures", "DataFlow Inc"],
-        judges: ["Dr. Sarah Chen - AI Research Lead", "Marcus Johnson - CTO at DataFlow"],
-        schedule: [
-          { time: "09:00", event: "Registration & Welcome" },
-          { time: "10:00", event: "Keynote & Challenge Announcement" },
-          { time: "11:00", event: "Hacking Begins" }
-        ],
-        contactEmail: "info@techcorp.com",
-        website: "https://aichallenge2024.com",
-        socialMedia: {
-          twitter: "@AIChallenge2024",
-          linkedin: "ai-innovation-challenge"
-        }
+        registrationLink: "https://aichallenge2024.com/register",
+        websiteUrl: "https://aichallenge2024.com",
+        eligibility: "Students and professionals",
+        tags: ["AI", "ML", "Innovation"]
       },
       {
         title: "Blockchain for Good Hackathon",
         organizer: "CryptoForChange",
         description: "Build blockchain solutions that create positive social impact and address real-world problems.",
+        location: "Virtual Event",
+        mode: "online",
         startDate: new Date('2024-04-20'),
         endDate: new Date('2024-04-22'),
         registrationDeadline: new Date('2024-04-15'),
-        location: {
-          type: "online",
-          venue: "Virtual Event",
-          address: "Online"
-        },
         prizePool: "$75,000",
-        maxTeamSize: 5,
+        teamSize: {
+          min: 3,
+          max: 5
+        },
         themes: ["blockchain", "social-impact", "fintech"],
         technologies: ["Solidity", "Web3.js", "Ethereum", "React", "Node.js"],
         difficulty: "advanced",
         status: "upcoming",
-        requirements: ["Blockchain development experience", "Team of 3-5 members"],
-        rules: ["Must use blockchain technology", "Focus on social impact", "72-hour time limit"],
-        sponsors: ["CryptoForChange", "Ethereum Foundation", "ConsenSys"],
-        judges: ["Alex Rivera - Blockchain Architect", "Dr. Kim Park - DeFi Expert"],
-        schedule: [
-          { time: "08:00", event: "Virtual Check-in" },
-          { time: "09:00", event: "Opening Ceremony" },
-          { time: "10:00", event: "Hacking Begins" }
-        ],
-        contactEmail: "hello@cryptoforchange.org",
-        website: "https://blockchainforgoood.org",
-        socialMedia: {
-          twitter: "@BlockchainForGood",
-          discord: "blockchain-for-good"
-        }
+        registrationLink: "https://blockchainforgoood.org/register",
+        websiteUrl: "https://blockchainforgoood.org",
+        eligibility: "Blockchain developers and enthusiasts",
+        tags: ["Blockchain", "Social Impact", "DeFi"]
       },
       {
         title: "Mobile App Development Sprint",
         organizer: "Mobile Developers United",
         description: "Create innovative mobile applications that enhance user experience and solve everyday problems.",
+        location: "New York Tech Hub",
+        mode: "offline",
         startDate: new Date('2024-02-10'),
         endDate: new Date('2024-02-12'),
         registrationDeadline: new Date('2024-02-05'),
-        location: {
-          type: "offline",
-          venue: "New York Tech Hub",
-          address: "456 Innovation Ave, New York, NY 10001"
-        },
         prizePool: "$25,000",
-        maxTeamSize: 3,
+        teamSize: {
+          min: 1,
+          max: 3
+        },
         themes: ["mobile-development", "user-experience", "productivity"],
         technologies: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase"],
         difficulty: "beginner",
         status: "completed",
-        requirements: ["Basic mobile development knowledge", "Bring your own device"],
-        rules: ["Mobile-first approach", "Must work on iOS or Android", "48-hour limit"],
-        sponsors: ["Mobile Developers United", "App Store", "Google Play"],
-        judges: ["Lisa Wong - Senior iOS Developer", "James Miller - Android Expert"],
-        schedule: [
-          { time: "09:00", event: "Registration & Breakfast" },
-          { time: "10:00", event: "Challenge Briefing" },
-          { time: "11:00", event: "Development Begins" }
-        ],
-        contactEmail: "events@mobiledevs.org",
-        website: "https://mobilesprint2024.com",
-        socialMedia: {
-          twitter: "@MobileDevSprint",
-          instagram: "mobiledevsunited"
-        }
+        registrationLink: "https://mobilesprint2024.com/register",
+        websiteUrl: "https://mobilesprint2024.com",
+        eligibility: "Mobile developers of all levels",
+        tags: ["Mobile", "UX", "Apps"]
       },
       {
         title: "Quantum Computing Challenge",
         organizer: "Quantum Research Institute",
         description: "Explore the frontiers of quantum computing and develop algorithms for next-generation quantum systems.",
+        location: "MIT Campus, Cambridge (Hybrid)",
+        mode: "hybrid",
         startDate: new Date('2024-05-25'),
         endDate: new Date('2024-05-27'),
         registrationDeadline: new Date('2024-05-20'),
-        location: {
-          type: "hybrid",
-          venue: "MIT Campus, Cambridge (Hybrid)",
-          address: "77 Massachusetts Ave, Cambridge, MA 02139"
-        },
         prizePool: "$150,000",
-        maxTeamSize: 4,
+        teamSize: {
+          min: 2,
+          max: 4
+        },
         themes: ["quantum-computing", "algorithms", "research"],
         technologies: ["Qiskit", "Cirq", "Python", "Q#", "Quantum Assembly"],
         difficulty: "advanced",
         status: "upcoming",
-        requirements: ["Quantum computing background", "Advanced mathematics", "Team of 2-4"],
-        rules: ["Must use quantum algorithms", "Theoretical solutions accepted", "72-hour limit"],
-        sponsors: ["Quantum Research Institute", "IBM Quantum", "Google Quantum AI"],
-        judges: ["Dr. Alice Quantum - Quantum Physicist", "Prof. Bob Entanglement - MIT"],
-        schedule: [
-          { time: "08:00", event: "Registration & Quantum Coffee" },
-          { time: "09:00", event: "Quantum State Preparation" },
-          { time: "10:00", event: "Challenge Superposition Begins" }
-        ],
-        contactEmail: "quantum@research-institute.edu",
-        website: "https://quantumchallenge2024.edu",
-        socialMedia: {
-          twitter: "@QuantumChallenge",
-          linkedin: "quantum-research-institute"
-        }
+        registrationLink: "https://quantumchallenge2024.edu/register",
+        websiteUrl: "https://quantumchallenge2024.edu",
+        eligibility: "Quantum computing researchers and advanced students",
+        tags: ["Quantum", "Research", "Algorithms"]
       },
       {
         title: "GreenTech Sustainability Hackathon",
         organizer: "EcoTech Solutions",
         description: "Develop technology solutions to combat climate change and promote environmental sustainability.",
+        location: "Seattle Green Building",
+        mode: "offline",
         startDate: new Date('2024-06-08'),
         endDate: new Date('2024-06-10'),
         registrationDeadline: new Date('2024-06-03'),
-        location: {
-          type: "offline",
-          venue: "Seattle Green Building",
-          address: "789 Eco Way, Seattle, WA 98101"
-        },
         prizePool: "$50,000",
-        maxTeamSize: 5,
+        teamSize: {
+          min: 3,
+          max: 5
+        },
         themes: ["greentech", "sustainability", "environmental"],
         technologies: ["IoT", "Sensors", "React", "Node.js", "Python", "Arduino"],
         difficulty: "intermediate",
         status: "upcoming",
-        requirements: ["Passion for environment", "Basic programming skills", "Team of 3-5"],
-        rules: ["Focus on sustainability", "Real-world impact", "48-hour development"],
-        sponsors: ["EcoTech Solutions", "Green Energy Corp", "Sustainable Future Fund"],
-        judges: ["Dr. Green Leaf - Environmental Scientist", "Eco Johnson - Sustainability Expert"],
-        schedule: [
-          { time: "09:00", event: "Eco-Friendly Registration" },
-          { time: "10:00", event: "Sustainability Keynote" },
-          { time: "11:00", event: "Green Coding Begins" }
-        ],
-        contactEmail: "green@ecotech-solutions.org",
-        website: "https://greentechhack2024.org",
-        socialMedia: {
-          twitter: "@GreenTechHack",
-          instagram: "ecotechsolutions"
-        }
+        registrationLink: "https://greentechhack2024.org/register",
+        websiteUrl: "https://greentechhack2024.org",
+        eligibility: "Environmentally conscious developers",
+        tags: ["GreenTech", "Sustainability", "Climate"]
       }
     ];
 

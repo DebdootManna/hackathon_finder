@@ -234,112 +234,164 @@ router.post('/seed', async (req, res) => {
       }
     ];
 
-    // Sample users data
+    // Your actual local users data (exported from local database)
     const users = [
       {
-        name: "Sarah Chen",
-        email: "sarah.chen@demo.com",
-        password: "demo123456",
-        age: 24,
-        gender: "female",
-        phoneNumber: "+1-555-0101",
-        profile: {
-          bio: "Full-stack developer passionate about AI and machine learning. Love building innovative solutions that make a difference.",
-          skills: ["JavaScript", "Python", "React", "Node.js", "TensorFlow", "MongoDB"],
-          experience: "intermediate",
-          location: {
-            city: "San Francisco",
-            country: "USA",
-            timezone: "PST"
+        "profile": {
+          "location": {
+            "city": "San Francisco",
+            "country": "USA",
+            "timezone": "PST"
           },
-          education: {
-            level: "bachelors",
-            field: "Computer Science",
-            institution: "UC Berkeley"
+          "education": {
+            "level": "bachelors",
+            "field": "Computer Science",
+            "institution": "UC Berkeley"
           },
-          occupation: {
-            title: "Software Engineer",
-            company: "TechCorp",
-            industry: "Technology"
-          }
+          "occupation": {
+            "title": "Software Engineer",
+            "company": "TechCorp",
+            "industry": "Technology"
+          },
+          "bio": "Full-stack developer passionate about AI and machine learning. Love building innovative solutions that make a difference.",
+          "skills": [
+            "JavaScript",
+            "Python",
+            "React",
+            "Node.js",
+            "TensorFlow",
+            "MongoDB"
+          ],
+          "experience": "intermediate",
+          "interests": [
+            "Artificial Intelligence",
+            "Machine Learning",
+            "Web Development",
+            "Data Science"
+          ]
         },
-        preferences: {
-          domains: ["artificial-intelligence", "machine-learning", "web-development"],
-          teamPreference: "small-team",
-          travelWillingness: "national",
-          availableWeekends: true,
-          availableWeekdays: false
-        }
+        "preferences": {
+          "prizeRange": {
+            "min": 0,
+            "max": 1000000
+          },
+          "domains": [],
+          "hackathonTypes": [],
+          "teamPreference": "any",
+          "difficultyLevel": [],
+          "travelWillingness": "local-only",
+          "availableWeekends": true,
+          "availableWeekdays": false,
+          "preferredDuration": "any",
+          "emailNotifications": true,
+          "reminderDays": 3
+        },
+        "name": "Alice Johnson",
+        "email": "alice.johnson@email.com",
+        "password": "$2a$10$MFpMaOoVKrrxX4I/8REKzusNvtcmOkIZcyzqiX5hjwXMgF81xlbMG",
+        "age": 24,
+        "gender": "female",
+        "phoneNumber": "+1-555-0101",
+        "bookmarkedHackathons": [],
+        "participatedHackathons": []
       },
       {
-        name: "Marcus Rodriguez",
-        email: "marcus.rodriguez@demo.com",
-        password: "demo123456",
-        age: 28,
-        gender: "male",
-        phoneNumber: "+1-555-0102",
-        profile: {
-          bio: "Blockchain developer and cryptocurrency enthusiast. Building the future of decentralized applications.",
-          skills: ["Solidity", "Web3.js", "Ethereum", "React", "Node.js", "Smart Contracts"],
-          experience: "advanced",
-          location: {
-            city: "Austin",
-            country: "USA",
-            timezone: "CST"
+        "profile": {
+          "location": {
+            "city": "Vadodara",
+            "country": "India"
           },
-          education: {
-            level: "masters",
-            field: "Computer Engineering",
-            institution: "UT Austin"
+          "education": {
+            "level": "bachelors",
+            "field": "Computer Science and Engineering"
           },
-          occupation: {
-            title: "Blockchain Developer",
-            company: "CryptoTech",
-            industry: "Cryptocurrency"
-          }
+          "occupation": {
+            "title": "Nerd",
+            "company": "Nothing"
+          },
+          "interests": [],
+          "bio": "A musician who hacks computers",
+          "experience": "advanced",
+          "skills": [
+            "NextJS"
+          ]
         },
-        preferences: {
-          domains: ["blockchain", "fintech", "web-development"],
-          teamPreference: "any",
-          travelWillingness: "international",
-          availableWeekends: true,
-          availableWeekdays: true
-        }
+        "preferences": {
+          "prizeRange": {
+            "min": 0,
+            "max": 1000000
+          },
+          "hackathonTypes": [],
+          "difficultyLevel": [],
+          "preferredDuration": "any",
+          "domains": [
+            "artificial-intelligence",
+            "web-development",
+            "mobile-development",
+            "data-science"
+          ],
+          "teamPreference": "solo",
+          "travelWillingness": "international",
+          "availableWeekends": true,
+          "availableWeekdays": true
+        },
+        "name": "Debdoot Manna",
+        "email": "debdoot@email.com",
+        "password": "$2a$10$8Xbty.fYRJVU707nzhdaW.lmHjdG7u3gMyR5NqZCnlBigIjCWhjvu",
+        "age": 21,
+        "gender": "male",
+        "phoneNumber": "987654321",
+        "bookmarkedHackathons": [],
+        "participatedHackathons": []
       },
       {
-        name: "Priya Patel",
-        email: "priya.patel@demo.com",
-        password: "demo123456",
-        age: 22,
-        gender: "female",
-        phoneNumber: "+1-555-0103",
-        profile: {
-          bio: "Mobile app developer specializing in React Native and Flutter. Creating beautiful, user-friendly mobile experiences.",
-          skills: ["React Native", "Flutter", "Dart", "Swift", "Kotlin", "Firebase"],
-          experience: "intermediate",
-          location: {
-            city: "Seattle",
-            country: "USA",
-            timezone: "PST"
+        "profile": {
+          "location": {
+            "city": "timepass",
+            "country": "jbdfhaj"
           },
-          education: {
-            level: "bachelors",
-            field: "Software Engineering",
-            institution: "University of Washington"
+          "education": {
+            "level": "phd",
+            "field": "COmputer"
           },
-          occupation: {
-            title: "Mobile Developer",
-            company: "AppCraft",
-            industry: "Mobile Technology"
-          }
+          "occupation": {
+            "title": "timepass",
+            "company": "nothing"
+          },
+          "interests": [],
+          "bio": "time pass",
+          "experience": "advanced",
+          "skills": [
+            "cyber"
+          ]
         },
-        preferences: {
-          domains: ["mobile-development", "web-development"],
-          teamPreference: "small-team",
-          travelWillingness: "regional",
-          availableWeekends: true,
-          availableWeekdays: false
-        }
+        "preferences": {
+          "prizeRange": {
+            "min": 0,
+            "max": 1000000
+          },
+          "hackathonTypes": [],
+          "difficultyLevel": [],
+          "preferredDuration": "any",
+          "domains": [
+            "artificial-intelligence",
+            "machine-learning",
+            "web-development",
+            "social-impact"
+          ],
+          "teamPreference": "large-team",
+          "travelWillingness": "regional",
+          "availableWeekends": true,
+          "availableWeekdays": true
+        },
+        "name": "Jadiya Bhaijaan",
+        "email": "dummy123@email.com",
+        "password": "$2a$10$lgO28BvyXhsTNQpnlZAfUe9cj.I8xFlG/QzDikBIces96iWBoq9fy",
+        "age": 69,
+        "gender": "male",
+        "phoneNumber": "987654321",
+        "bookmarkedHackathons": [],
+        "participatedHackathons": []
       }
     ];
 
@@ -347,7 +399,7 @@ router.post('/seed', async (req, res) => {
     const insertedHackathons = await Hackathon.insertMany(hackathons);
     console.log(`Inserted ${insertedHackathons.length} hackathons`);
 
-    // Insert users
+    // Insert users directly (passwords are already hashed from local DB)
     const insertedUsers = await User.insertMany(users);
     console.log(`Inserted ${insertedUsers.length} users`);
 

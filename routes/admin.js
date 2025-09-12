@@ -89,7 +89,7 @@ router.post('/seed', async (req, res) => {
           min: 1,
           max: 3
         },
-        themes: ["mobile-development", "user-experience", "productivity"],
+        themes: ["mobile-development", "web-development", "social-impact"],
         technologies: ["React Native", "Flutter", "Swift", "Kotlin", "Firebase"],
         difficulty: "beginner",
         status: "completed",
@@ -246,7 +246,7 @@ router.post('/seed', async (req, res) => {
           }
         },
         preferences: {
-          domains: ["mobile-development", "user-experience", "design"],
+          domains: ["mobile-development", "web-development"],
           teamPreference: "small-team",
           travelWillingness: "regional",
           availableWeekends: true,

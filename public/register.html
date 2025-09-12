@@ -1,78 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register for Hackathon - Hackathon Finder</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - FinTech Revolution 2024</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        :root {
-            /* Light Mode Colors */
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --text-inverse: #ffffff;
-            --border-color: #dee2e6;
-            --card-bg: #ffffff;
-            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --input-bg: #ffffff;
-            --input-border: #ced4da;
-            --button-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --button-secondary: #6c757d;
-            --accent-color: #667eea;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --info-color: #17a2b8;
-        }
-
-        [data-theme="dark"] {
-            /* Dark Mode Colors */
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --text-inverse: #0d1117;
-            --border-color: #30363d;
-            --card-bg: #21262d;
-            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --input-bg: #21262d;
-            --input-border: #30363d;
-            --button-primary: linear-gradient(135deg, #58a6ff 0%, #1f6feb 100%);
-            --button-secondary: #30363d;
-            --accent-color: #58a6ff;
-            --success-color: #238636;
-            --warning-color: #d29922;
-            --danger-color: #da3633;
-            --info-color: #1f6feb;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--text-inverse);
-            background: var(--bg-gradient);
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
 
         .navbar {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 1rem 0;
-            box-shadow: var(--card-shadow);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid var(--border-color);
         }
 
         .nav-container {
@@ -87,7 +42,7 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: var(--accent-color);
+            color: #667eea;
             text-decoration: none;
         }
 
@@ -98,43 +53,14 @@
         }
 
         .nav-links a {
-            color: var(--text-primary);
+            color: #333;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .theme-toggle {
-            background: var(--input-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 50px;
-            padding: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .theme-icon {
-            font-size: 1.2rem;
-            padding: 4px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .theme-icon.active {
-            background: var(--accent-color);
-            color: var(--text-inverse);
+            color: #667eea;
         }
 
         .container {
@@ -145,8 +71,8 @@
 
         .back-btn {
             background: rgba(255, 255, 255, 0.2);
-            color: var(--text-inverse);
-            border: 2px solid var(--text-inverse);
+            color: white;
+            border: 2px solid white;
             padding: 0.75rem 2rem;
             border-radius: 25px;
             text-decoration: none;
@@ -157,18 +83,17 @@
         }
 
         .back-btn:hover {
-            background: var(--card-bg);
-            color: var(--accent-color);
+            background: white;
+            color: #667eea;
         }
 
         .registration-card {
-            background: var(--card-bg);
-            border-radius: 24px;
+            background: white;
+            border-radius: 20px;
             padding: 3rem;
-            box-shadow: var(--card-shadow);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
-            border: 1px solid var(--border-color);
         }
 
         .registration-card::before {
@@ -178,7 +103,7 @@
             left: 0;
             right: 0;
             height: 5px;
-            background: var(--button-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         .form-header {
@@ -188,20 +113,20 @@
 
         .form-title {
             font-size: 2.5rem;
-            color: var(--text-primary);
+            color: #333;
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
 
         .form-subtitle {
-            color: var(--text-secondary);
+            color: #666;
             font-size: 1.1rem;
         }
 
         .event-info {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 20px;
+            background: #f8f9ff;
+            border: 2px solid #e8f0fe;
+            border-radius: 15px;
             padding: 2rem;
             margin-bottom: 3rem;
             text-align: center;
@@ -209,18 +134,18 @@
 
         .event-name {
             font-size: 1.5rem;
-            color: var(--accent-color);
+            color: #667eea;
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .event-organizer {
-            color: var(--text-secondary);
+            color: #666;
             margin-bottom: 1rem;
         }
 
         .event-dates {
-            color: var(--text-primary);
+            color: #333;
             font-weight: 500;
         }
 
@@ -230,7 +155,7 @@
 
         .section-title {
             font-size: 1.3rem;
-            color: var(--text-primary);
+            color: #333;
             margin-bottom: 1rem;
             font-weight: 600;
             display: flex;
@@ -245,28 +170,27 @@
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            color: #333;
             font-weight: 500;
         }
 
         .required {
-            color: var(--danger-color);
+            color: #e74c3c;
         }
 
         .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 1rem;
-            border: 2px solid var(--input-border);
-            border-radius: 12px;
+            border: 2px solid #e8f0fe;
+            border-radius: 10px;
             font-size: 1rem;
             transition: all 0.3s;
-            background: var(--input-bg);
-            color: var(--text-primary);
+            background: white;
         }
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
-            border-color: var(--accent-color);
+            border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
@@ -291,21 +215,21 @@
         .checkbox-item input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: var(--accent-color);
+            accent-color: #667eea;
         }
 
         .team-section {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 20px;
+            background: #f8f9ff;
+            border: 2px solid #e8f0fe;
+            border-radius: 15px;
             padding: 2rem;
             margin-bottom: 2rem;
         }
 
         .team-member {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
             padding: 1.5rem;
             margin-bottom: 1rem;
         }
@@ -319,30 +243,28 @@
 
         .member-number {
             font-weight: 600;
-            color: var(--accent-color);
+            color: #667eea;
         }
 
         .remove-member {
-            background: var(--danger-color);
-            color: var(--text-inverse);
+            background: #e74c3c;
+            color: white;
             border: none;
             padding: 0.5rem 1rem;
-            border-radius: 8px;
+            border-radius: 5px;
             cursor: pointer;
             font-size: 0.9rem;
-            transition: all 0.3s;
         }
 
         .add-member {
-            background: var(--accent-color);
-            color: var(--text-inverse);
+            background: #667eea;
+            color: white;
             border: none;
             padding: 1rem 2rem;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 500;
             margin-top: 1rem;
-            transition: all 0.3s;
         }
 
         .form-row {
@@ -359,8 +281,8 @@
         }
 
         .submit-btn {
-            background: var(--button-primary);
-            color: var(--text-inverse);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             border: none;
             padding: 1.2rem 3rem;
             border-radius: 50px;
@@ -389,21 +311,19 @@
         }
 
         .error {
-            background: rgba(218, 54, 51, 0.1);
-            color: var(--danger-color);
-            border: 1px solid var(--danger-color);
+            background: #f8d7da;
+            color: #721c24;
             padding: 1rem;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 1rem;
             text-align: center;
         }
 
         .success {
-            background: rgba(35, 134, 54, 0.1);
-            color: var(--success-color);
-            border: 1px solid var(--success-color);
+            background: #d4edda;
+            color: #155724;
             padding: 2rem;
-            border-radius: 20px;
+            border-radius: 15px;
             text-align: center;
             margin-bottom: 2rem;
         }
@@ -436,10 +356,6 @@
         <div class="nav-container">
             <a href="/" class="logo">🚀 Hackathon Finder</a>
             <div class="nav-links">
-                <div class="theme-toggle" onclick="toggleTheme()">
-                    <span class="theme-icon" id="lightIcon">☀️</span>
-                    <span class="theme-icon" id="darkIcon">🌙</span>
-                </div>
                 <a href="/">Home</a>
                 <a href="/profile.html">Profile</a>
             </div>
@@ -484,175 +400,94 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Phone Number <span class="required">*</span></label>
-                            <input type="tel" id="phone" class="form-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Age</label>
-                            <input type="number" id="age" class="form-input" min="13" max="100">
-                        </div>
-                    </div>
+      <!-- Event Info -->
+      <div class="bg-[#2c2c2e] p-4 rounded-lg text-center border border-white/10">
+        <h2 class="text-xl font-semibold text-blue-400">FinTech Revolution 2024</h2>
+        <p class="text-gray-400 text-sm">by Financial Innovation Labs</p>
+        <p class="text-gray-500 text-sm">3/8/2024 - 3/11/2024</p>
+      </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Institution/Organization</label>
-                        <input type="text" id="institution" class="form-input">
-                    </div>
-                </div>
-
-                <!-- Experience & Skills -->
-                <div class="form-section">
-                    <h3 class="section-title">💻 Experience & Skills</h3>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Experience Level <span class="required">*</span></label>
-                            <select id="experience" class="form-select" required>
-                                <option value="">Select your level</option>
-                                <option value="beginner">Beginner</option>
-                                <option value="intermediate">Intermediate</option>
-                                <option value="advanced">Advanced</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Preferred Role</label>
-                            <select id="role" class="form-select">
-                                <option value="">Select your role</option>
-                                <option value="developer">Developer</option>
-                                <option value="designer">Designer</option>
-                                <option value="project-manager">Project Manager</option>
-                                <option value="data-scientist">Data Scientist</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Technical Skills (comma separated)</label>
-                        <input type="text" id="skills" class="form-input" placeholder="e.g., JavaScript, Python, React, Node.js">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Previous Hackathon Experience</label>
-                        <textarea id="previousExperience" class="form-textarea" placeholder="Tell us about your previous hackathon experiences..."></textarea>
-                    </div>
-                </div>
-
-                <!-- Team Information -->
-                <div class="team-section">
-                    <h3 class="section-title">👥 Team Information</h3>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Team Name</label>
-                        <input type="text" id="teamName" class="form-input" placeholder="Enter your team name (optional)">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Team Formation</label>
-                        <select id="teamFormation" class="form-select">
-                            <option value="solo">Participating Solo</option>
-                            <option value="existing">Have an Existing Team</option>
-                            <option value="looking">Looking for Team Members</option>
-                        </select>
-                    </div>
-
-                    <div id="teamMembersSection" style="display: none;">
-                        <label class="form-label">Team Members</label>
-                        <div id="teamMembers"></div>
-                        <button type="button" id="addMemberBtn" class="add-member">+ Add Team Member</button>
-                    </div>
-                </div>
-
-                <!-- Project Idea -->
-                <div class="form-section">
-                    <h3 class="section-title">💡 Project Information</h3>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Project Idea (Optional)</label>
-                        <textarea id="projectIdea" class="form-textarea" placeholder="Briefly describe your project idea or what you'd like to work on..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Motivation</label>
-                        <textarea id="motivation" class="form-textarea" placeholder="Why do you want to participate in this hackathon?"></textarea>
-                    </div>
-                </div>
-
-                <!-- Additional Information -->
-                <div class="form-section">
-                    <h3 class="section-title">📋 Additional Information</h3>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Dietary Restrictions/Allergies</label>
-                        <input type="text" id="dietary" class="form-input" placeholder="Any dietary restrictions or allergies?">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">T-Shirt Size</label>
-                        <select id="tshirtSize" class="form-select">
-                            <option value="">Select size</option>
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Additional Comments</label>
-                        <textarea id="comments" class="form-textarea" placeholder="Any additional information you'd like to share..."></textarea>
-                    </div>
-                </div>
-
-                <div class="submit-section">
-                    <button type="submit" id="submitBtn" class="submit-btn">
-                        Complete Registration
-                    </button>
-                    <p style="margin-top: 1rem; color: #666; font-size: 0.9rem;">
-                        By registering, you agree to the hackathon terms and conditions.
-                    </p>
-                </div>
-            </form>
+      <!-- Form -->
+      <form class="space-y-8">
+        <!-- Personal Info -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">👤 Personal Information</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input type="text" placeholder="Full Name *" class="p-3 rounded-md" required />
+            <input type="email" placeholder="Email Address *" class="p-3 rounded-md" required />
+            <input type="tel" placeholder="Phone Number *" class="p-3 rounded-md" required />
+            <input type="number" placeholder="Age" class="p-3 rounded-md" />
+            <input type="text" placeholder="Institution/Organization" class="p-3 rounded-md col-span-full" />
+          </div>
         </div>
+
+        <!-- Experience -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">🧠 Experience & Skills</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <select class="p-3 rounded-md">
+              <option disabled selected>Select your level</option>
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+            <select class="p-3 rounded-md">
+              <option disabled selected>Select your role</option>
+              <option>Developer</option>
+              <option>Designer</option>
+              <option>Product Manager</option>
+              <option>Data Scientist</option>
+            </select>
+          </div>
+          <input type="text" placeholder="Technical Skills (e.g., Python, React, Node.js)" class="mt-4 p-3 w-full rounded-md" />
+          <textarea placeholder="Previous Hackathon Experience" class="mt-4 p-3 w-full rounded-md" rows="3"></textarea>
+        </div>
+
+        <!-- Team -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">👥 Team Information</h3>
+          <input type="text" placeholder="Team Name (optional)" class="p-3 w-full rounded-md" />
+          <select class="mt-4 p-3 w-full rounded-md">
+            <option>Participating Solo</option>
+            <option>Looking for Team</option>
+            <option>Already in a Team</option>
+          </select>
+        </div>
+
+        <!-- Project -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">💡 Project Information</h3>
+          <textarea placeholder="Briefly describe your project idea..." class="p-3 w-full rounded-md" rows="3"></textarea>
+          <textarea placeholder="Why do you want to participate in this hackathon?" class="mt-4 p-3 w-full rounded-md" rows="3"></textarea>
+        </div>
+
+        <!-- Additional -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">📋 Additional Information</h3>
+          <input type="text" placeholder="Any dietary restrictions or allergies?" class="p-3 w-full rounded-md" />
+          <select class="mt-4 p-3 w-full rounded-md">
+            <option disabled selected>Select T-Shirt Size</option>
+            <option>XS</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+            <option>XXL</option>
+          </select>
+          <textarea placeholder="Any additional comments..." class="mt-4 p-3 w-full rounded-md" rows="3"></textarea>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+          <button type="submit" class="blue-button text-white px-6 py-3 rounded-md font-semibold text-lg">
+            Submit Registration
+          </button>
+        </div>
+      </form>
     </div>
 
     <script>
         const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
-        
-        // Theme management
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeIcons(savedTheme);
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcons(newTheme);
-        }
-
-        function updateThemeIcons(theme) {
-            const lightIcon = document.getElementById('lightIcon');
-            const darkIcon = document.getElementById('darkIcon');
-            
-            if (theme === 'dark') {
-                lightIcon.classList.remove('active');
-                darkIcon.classList.add('active');
-            } else {
-                darkIcon.classList.remove('active');
-                lightIcon.classList.add('active');
-            }
-        }
-
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', initTheme);
         
         // Get hackathon ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);

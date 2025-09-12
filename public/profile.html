@@ -1,507 +1,1184 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Hackathon Finder — User Profile (Dark)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Hackathon Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- === Styles (Single-file) === -->
-<style>
-  /* Color palette (from your design summary) */
-  :root{
-    --black-primary: #000000;
-    --charcoal-rich: #121214;
-    --gray-subtle: #1f1f21;
-    --card-bg: rgba(44,44,46,0.52);
-    --glass-border: rgba(255,255,255,0.06);
-    --blue-apple: #007aff;
-    --silver-primary: #f2f2f7;
-    --gray-muted: #8e8e93;
-    --green-success: #30d158;
-    --orange-warning: #ff9f0a;
-    --red-error: #ff453a;
-    --purple-premium: #5856d6;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
 
-    --radius-lg: 18px;
-    --radius-md: 12px;
-    --radius-sm: 8px;
-    --card-padding: 20px;
-  }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-  /* Page reset */
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    margin:0; background:var(--black-primary); color:var(--silver-primary);
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    line-height:1.4;
-    padding:28px;
-  }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            color: white;
+        }
 
-  /* Soft gradient background accent (keeps dark primary) */
-  .page-bg{
-    position:fixed; inset:0; z-index:-2;
-    background: linear-gradient(180deg, rgba(18,18,20,0.6) 0%, rgba(8,8,10,0.92) 55%), radial-gradient(800px 400px at 12% 8%, rgba(80,65,200,0.12), transparent 10%), radial-gradient(700px 350px at 92% 90%, rgba(0,122,255,0.06), transparent 10%);
-    pointer-events:none;
-  }
+        .header h1 {
+            font-size: 2.5rem;
+        }
 
-  /* Header (sticky) */
-  header.app-header{
-    display:flex; align-items:center; gap:18px;
-    padding:12px 18px; border-radius:14px;
-    background: rgba(255,255,255,0.02); backdrop-filter: blur(8px) saturate(160%);
-    border: 0.5px solid rgba(255,255,255,0.03);
-    margin-bottom:26px;
-  }
-  .logo{
-    width:44px; height:44px; border-radius:10px;
-    background: linear-gradient(135deg,var(--blue-apple), var(--purple-premium));
-    display:grid; place-items:center; font-weight:700; color:white;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-  }
-  .site-title{ font-size:20px; font-weight:700; margin-right:auto }
-  .site-sub{ font-size:12px; color:var(--gray-muted); margin-top:2px }
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
 
-  /* Layout grid */
-  .container{
-    display:grid;
-    grid-template-columns: minmax(260px, 320px) 1fr;
-    gap:26px;
-    align-items:start;
-  }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
 
-  /* Left profile card */
-  .profile-card{
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: var(--card-padding);
-    border: 0.5px solid var(--glass-border);
-    backdrop-filter: blur(16px) saturate(160%);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-    position:sticky; top:28px;
-  }
-  .avatar{
-    width:96px; height:96px; border-radius:50%;
-    background: linear-gradient(135deg,var(--blue-apple), var(--purple-premium));
-    display:flex; align-items:center; justify-content:center;
-    font-size:36px; font-weight:700; color:#fff; margin-bottom:10px;
-  }
-  .user-name{ font-size:22px; font-weight:700; margin:0 0 6px 0 }
-  .user-email{ font-size:13px; color: #bfc4cc; margin-bottom:14px }
-  .bio{ font-style:italic; color:var(--gray-muted); font-size:13px; margin-bottom:14px }
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
 
-  .profile-row{
-    display:flex; justify-content:space-between; gap:12px;
-    padding:12px 0; border-top:1px solid rgba(255,255,255,0.02);
-    border-bottom:1px solid rgba(255,255,255,0.02); margin:12px 0;
-  }
-  .meta-item{ font-size:14px; color:var(--gray-muted) }
-  .meta-val{ color:var(--silver-primary); font-weight:600; margin-top:6px }
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
 
-  .badge{
-    display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px;
-    background: rgba(255,255,255,0.02); color:var(--silver-primary); border:0.5px solid rgba(255,255,255,0.03);
-  }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-  .pref-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }
-  .tag{ padding:6px 10px; border-radius:999px; font-size:13px; background: rgba(255,255,255,0.03); color:var(--blue-apple); border:1px solid rgba(0,122,255,0.08) }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 20px;
+        }
 
-  .edit-btn{
-    margin-top:16px; width:100%;
-    display:inline-block; text-align:center; padding:10px 12px; border-radius:12px;
-    background: linear-gradient(90deg, var(--blue-apple), var(--purple-premium));
-    color:white; font-weight:700; border:none; cursor:pointer;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.6);
-  }
-  .edit-btn:active{ transform: translateY(1px) }
+        .profile-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
 
-  /* Right main area */
-  .main-panel{
-    display:flex; flex-direction:column; gap:18px;
-  }
+        .profile-email {
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
 
-  .stats-row{
-    display:grid; grid-template-columns: repeat(3,1fr); gap:14px;
-  }
-  .stat-card{
-    padding:18px; border-radius:14px; background: var(--card-bg);
-    border:0.5px solid var(--glass-border); backdrop-filter: blur(14px);
-    text-align:center;
-  }
-  .stat-num{ font-size:28px; font-weight:700; margin-bottom:6px }
-  .stat-label{ font-size:12px; color:var(--gray-muted) }
+        .profile-bio {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
 
-  /* Search + Filters */
-  .search-row{
-    display:flex; gap:12px; align-items:center; margin-top:6px;
-  }
-  .search{
-    flex:1; display:flex; align-items:center; gap:12px;
-    padding:10px 14px; border-radius:12px; background:var(--gray-subtle);
-    border: 1px solid rgba(255,255,255,0.03);
-    color:var(--gray-muted);
-  }
-  .search input{ width:100%; background:transparent; border:0; color:var(--silver-primary); font-size:14px; outline:none }
+        .profile-details {
+            display: grid;
+            gap: 15px;
+        }
 
-  .filters{ display:flex; gap:8px; align-items:center }
-  .select{
-    padding:8px 12px; border-radius:10px; background:rgba(255,255,255,0.02); border:0.5px solid rgba(255,255,255,0.03);
-    color:var(--silver-primary); font-size:13px;
-  }
-  .apply{
-    padding:10px 14px; border-radius:10px; background:transparent; border:1px solid rgba(0,122,255,0.12); color:var(--blue-apple);
-  }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
 
-  /* Content cards (Bookmarks/Participation) */
-  .panel{
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    padding: var(--card-padding);
-    border: 0.5px solid var(--glass-border);
-    backdrop-filter: blur(18px) saturate(140%);
-  }
-  .panel h3{ margin:0 0 12px 0; font-size:18px; font-weight:700 }
-  .empty-illustration{
-    text-align:center; color:var(--gray-muted); padding:24px 12px;
-  }
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
 
-  .section-grid{
-    display:grid; grid-template-columns: repeat(2,1fr); gap:18px;
-  }
+        .detail-value {
+            color: #333;
+        }
 
-  .theme-toggle {
-  background: #8db8d7;
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.theme-toggle:hover {
-  background: #0F6BAE;
-}
-.light-mode {
-  background-color: #f9f9f9;
-  color: black;
-}
+        .skills-container {
+            margin-top: 20px;
+        }
 
-.light-mode .card, 
-.light-mode select, 
-.light-mode button {
-  background: white;
-  color: black;
-  border: 1px solid #ddd;
-}
+        .skills-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
 
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
 
+        .skill-tag {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
-  /* Smaller hackathon preview card (list inside panels) */
-  .mini-card{
-    background: rgba(255,255,255,0.02); padding:12px; border-radius:12px; border:0.5px solid rgba(255,255,255,0.02);
-    display:flex; gap:12px; align-items:flex-start; margin-bottom:12px;
-  }
-  .mini-left{ width:52px; height:52px; border-radius:8px; background:linear-gradient(135deg,var(--blue-apple),var(--purple-premium)); color:#fff; display:grid; place-items:center; font-weight:700 }
-  .mini-content{ flex:1 }
-  .mini-title{ font-weight:700; font-size:14px }
-  .mini-sub{ font-size:12px; color:var(--gray-muted) }
+        .preferences-section {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid #eee;
+        }
 
-  /* badges */
-  .status-pill{ display:inline-block; padding:6px 8px; border-radius:999px; font-size:12px; margin-right:8px }
-  .completed{ background: rgba(255,69,58,0.12); color:var(--red-error); border:1px solid rgba(255,69,58,0.08) }
-  .ongoing{ background: rgba(48,209,88,0.12); color:var(--green-success); border:1px solid rgba(48,209,88,0.08) }
-  .upcoming{ background: rgba(0,122,255,0.12); color:var(--blue-apple); border:1px solid rgba(0,122,255,0.08) }
+        .preferences-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
 
-  /* Responsive */
-  @media (max-width: 980px){
-    .container{ grid-template-columns: 1fr; }
-    .profile-card{ position:relative; top:0 }
-    .section-grid{ grid-template-columns: 1fr; }
-    .stats-row{ grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 520px){
-    .stats-row{ grid-template-columns: 1fr; }
-    body{ padding:16px }
-  }
+        .preference-item {
+            margin-bottom: 10px;
+        }
 
-  /* focus states (accessibility) */
-  :focus-visible{ outline: 2px solid rgba(0,122,255,0.28); outline-offset:2px; border-radius:6px; }
+        .preference-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
 
-  /* micro interactions */
-  .stat-card, .profile-card, .panel{ transition: transform .28s cubic-bezier(.25,.46,.45,.94), box-shadow .28s }
-  .stat-card:hover, .mini-card:hover{ transform: translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6) }
-</style>
+        .preference-value {
+            color: #333;
+        }
+
+        .domains-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .domain-tag {
+            background: #e8f5e8;
+            color: #388e3c;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .activity-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hackathon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .hackathon-mini-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .hackathon-mini-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .hackathon-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .hackathon-organizer {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .hackathon-date {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-upcoming { background: #e3f2fd; color: #1976d2; }
+        .status-ongoing { background: #e8f5e8; color: #388e3c; }
+        .status-completed { background: #fce4ec; color: #c2185b; }
+        .status-registered { background: #fff3e0; color: #f57c00; }
+        .status-participating { background: #e1f5fe; color: #0277bd; }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Edit Profile Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            padding: 25px;
+            border-radius: 15px;
+            width: 95%;
+            max-width: 700px;
+            max-height: 90vh;
+            position: relative;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 20px;
+            top: 15px;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-section {
+            border: 2px solid #e8f0fe;
+            border-radius: 12px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .checkbox-item:hover {
+            background-color: #f8f9ff;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #667eea;
+        }
+
+        .checkbox-item label {
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .skills-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .skills-input input {
+            flex: 1;
+        }
+
+        .add-skill-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .skills-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .skill-tag {
+            background: #f0f4ff;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .remove-skill {
+            cursor: pointer;
+            color: #999;
+            font-weight: bold;
+        }
+
+        .remove-skill:hover {
+            color: #ff4444;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 1% auto;
+                padding: 20px;
+                width: 98%;
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .hackathon-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div class="page-bg" aria-hidden="true"></div>
-
-<header class="app-header" role="banner">
-  <div class="logo" aria-hidden="true">HF</div>
-  <div style="display:flex;flex-direction:column">
-    <div class="site-title">Hackathon Finder</div>
-    <div class="site-sub">Discover and participate in global hackathon events</div>
-  </div>
-
-  <div style="display:flex;align-items:center;gap:12px">
-    <button class="badge" title="Legend">Legend</button>
-    <button class="badge" title="Profile">Profile</button>
-    <div style="width:42px;height:42px;border-radius:999px;background:linear-gradient(135deg,#4b6cfb,#9b66ff);display:grid;place-items:center;font-weight:700">A</div>
-  </div>
-  <button onclick="toggleTheme()" class="theme-toggle">Toggle Mode</button>
-
-</header>
-
-<main class="container" role="main">
-  <!-- LEFT: Profile Card -->
-  <aside class="profile-card" aria-labelledby="profile-heading">
-    <div style="display:flex;align-items:center;gap:14px">
-      <div class="avatar" id="avatar">D</div>
-      <div style="flex:1">
-        <div class="user-name" id="profile-name">Demo</div>
-        <div class="user-email" id="profile-email">demo@gmail.com</div>
-        <div style="font-size:12px;color:var(--gray-muted)">Member since <strong>09/02/2024</strong></div>
-      </div>
-    </div>
-
-    <div class="bio">No bio available</div>
-
-    <div class="profile-row" role="list">
-      <div style="flex:1">
-        <div class="meta-item">Age</div>
-        <div class="meta-val" id="meta-age">15</div>
-      </div>
-      <div style="flex:1">
-        <div class="meta-item">Gender</div>
-        <div class="meta-val" id="meta-gender">male</div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div>
-        <div class="meta-item">Phone</div>
-        <div class="meta-val" id="meta-phone">987654321</div>
-      </div>
-      <div>
-        <div class="meta-item">Location</div>
-        <div class="meta-val" id="meta-location">Not specified</div>
-      </div>
-      <div>
-        <div class="meta-item">Education</div>
-        <div class="meta-val" id="meta-edu">Not specified</div>
-      </div>
-      <div>
-        <div class="meta-item">Occupation</div>
-        <div class="meta-val" id="meta-occu">Not specified</div>
-      </div>
-    </div>
-
-    <div style="margin-top:12px">
-      <div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700">🔧</span><span style="color:var(--silver-primary);font-weight:700">Skills</span></div>
-      <div style="margin-top:10px">
-        <div class="badge" style="background:rgba(255,255,255,0.02); color:var(--gray-muted)">No skills listed</div>
-      </div>
-    </div>
-
-    <div style="margin-top:18px">
-      <div style="display:flex;align-items:center;gap:8px"><span style="font-weight:700">🎯</span><span style="color:var(--silver-primary);font-weight:700">Preferences</span></div>
-      <div class="pref-tags">
-        <span class="tag">cybersecurity</span>
-        <span class="tag">cloud computing</span>
-      </div>
-
-      <div style="margin-top:12px;color:var(--gray-muted);font-size:13px">
-        <div><strong>Team Preference</strong> <div style="color:var(--silver-primary);margin-top:6px">small team</div></div>
-        <div style="margin-top:8px"><strong>Travel Willingness</strong> <div style="color:var(--silver-primary);margin-top:6px">local only</div></div>
-      </div>
-    </div>
-
-    <button class="edit-btn" id="editProfileBtn" aria-haspopup="dialog">✏️ Edit Profile</button>
-  </aside>
-
-  <!-- RIGHT: Main panels -->
-  <section class="main-panel" aria-labelledby="main-heading">
-    <!-- Stats Row -->
-    <div class="stats-row" aria-hidden="false">
-      <div class="stat-card">
-        <div class="stat-num" id="stat-total">4</div>
-        <div class="stat-label">TOTAL HACKATHONS</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-upcoming">2</div>
-        <div class="stat-label">UPCOMING</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-ongoing">1</div>
-        <div class="stat-label">ONGOING</div>
-      </div>
-    </div>
-
-    <!-- Search & filters -->
-    <div class="search-row" role="search" aria-label="Search hackathons and filters">
-      <div class="search" role="searchbox" aria-hidden="false">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <input placeholder="Search hackathons by title, theme, or technology" aria-label="search" />
-      </div>
-
-      <div class="filters" role="region" aria-label="Filters">
-        <select class="select" aria-label="Status">
-          <option>All Status</option>
-          <option>Upcoming</option>
-          <option>Ongoing</option>
-          <option>Completed</option>
-        </select>
-        <select class="select" aria-label="Mode">
-          <option>All Mode</option>
-          <option>Online</option>
-          <option>Offline</option>
-          <option>Hybrid</option>
-        </select>
-        <button class="apply">Apply Filters</button>
-      </div>
-    </div>
-
-    <!-- Panels grid -->
-    <div class="section-grid" style="margin-top:8px">
-      <!-- Left panel: Bookmarked -->
-      <div class="panel" aria-labelledby="bookmarked">
-        <h3 id="bookmarked">🔖 Bookmarked Hackathons <span style="background:rgba(255,255,255,0.02);padding:4px 7px;border-radius:999px;font-size:12px;margin-left:8px">0</span></h3>
-        <div class="empty-illustration">
-          <div style="font-size:28px;">🎫</div>
-          <div style="margin-top:10px;color:var(--gray-muted)">No bookmarked hackathons yet</div>
-          <div style="margin-top:6px;color:var(--gray-muted)">Start exploring and bookmark interesting events!</div>
-        </div>
-      </div>
-
-      <!-- Right panel: Quick Stats / Participation -->
-      <div class="panel" aria-labelledby="quick-stats">
-        <h3 id="quick-stats">📊 Quick Stats</h3>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
-          <div style="flex:1;min-width:180px">
-            <div style="font-size:13px;color:var(--gray-muted)">Participated Events</div>
-            <div style="font-weight:700;font-size:16px;margin-top:6px">0</div>
-          </div>
-          <div style="flex:1;min-width:180px">
-            <div style="font-size:13px;color:var(--gray-muted)">Member Since</div>
-            <div style="font-weight:700;font-size:16px;margin-top:6px">09/02/2024</div>
-          </div>
-          <div style="flex:1;min-width:180px">
-            <div style="font-size:13px;color:var(--gray-muted)">Experience Level</div>
-            <div style="font-weight:700;font-size:16px;margin-top:6px">Beginner</div>
-          </div>
+    <div class="container">
+        <div class="header">
+            <h1>👤 User Profile</h1>
+            <a href="/" class="back-btn">← Back to Dashboard</a>
         </div>
 
-        <div style="margin-top:18px">
-          <h4 style="margin:0 0 10px 0;font-size:15px;font-weight:700">Participation History <span style="color:var(--gray-muted);font-weight:600">0</span></h4>
-          <div class="empty-illustration" style="padding-bottom:0">
-            <div style="font-size:26px;">🏆</div>
-            <div style="margin-top:8px;color:var(--gray-muted)">No participation history yet</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom: Some sample mini cards (recent/featured) -->
-    <div class="panel" aria-labelledby="recent">
-      <h3 id="recent">🔥 Featured Hackathons</h3>
-
-      <!-- mini-card examples -->
-      <div style="margin-top:12px">
-        <div class="mini-card">
-          <div class="mini-left">M</div>
-          <div class="mini-content">
-            <div class="mini-title">Mobile App Development Sprint</div>
-            <div class="mini-sub">by Mobile Developers United • <span class="status-pill completed">COMPLETED</span> <span class="status-pill">OFFLINE</span> <span class="status-pill">BEGINNER</span></div>
-            <div style="margin-top:8px;color:var(--gray-muted);font-size:13px">New York, NY • $25,000 • 06/02/2024 • 1-3 members</div>
-          </div>
-          <div style="display:flex;align-items:center"><button class="badge" aria-label="register">Register</button></div>
+        <div id="loading" class="loading">
+            Loading profile...
         </div>
 
-        <div class="mini-card">
-          <div class="mini-left">A</div>
-          <div class="mini-content">
-            <div class="mini-title">AI for Good Challenge</div>
-            <div class="mini-sub">by OpenAI Labs • <span class="status-pill upcoming">UPCOMING</span> <span class="status-pill">ONLINE</span> <span class="status-pill">INTERMEDIATE</span></div>
-            <div style="margin-top:8px;color:var(--gray-muted);font-size:13px">Remote • $50,000 • 12/15/2024 • 1-4 members</div>
-          </div>
-          <div style="display:flex;align-items:center"><button class="badge" aria-label="register">Register</button></div>
+        <div id="profileContent" style="display: none;">
+            <div class="profile-container">
+                <!-- Left Column - Profile Info -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profileAvatar">U</div>
+                        <div class="profile-name" id="profileName">User Name</div>
+                        <div class="profile-email" id="profileEmail">user@email.com</div>
+                        <div class="profile-bio" id="profileBio">User bio goes here...</div>
+                    </div>
+
+                    <div class="profile-details" id="profileDetails">
+                        <!-- Profile details will be populated here -->
+                    </div>
+
+                    <div class="skills-container" id="skillsContainer">
+                        <div class="skills-title">🛠️ Skills</div>
+                        <div class="skills-list" id="skillsList">
+                            <!-- Skills will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="preferences-section">
+                        <div class="preferences-title">🎯 Preferences</div>
+                        <div id="preferencesContent">
+                            <!-- Preferences will be populated here -->
+                        </div>
+                    </div>
+
+                    <button class="edit-btn" onclick="openEditModal()">✏️ Edit Profile</button>
+                </div>
+
+                <!-- Right Column - Quick Stats -->
+                <div class="profile-card">
+                    <div class="section-title">📊 Quick Stats</div>
+                    <div class="profile-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Bookmarked Hackathons</span>
+                            <span class="detail-value" id="bookmarkedCount">0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Participated Events</span>
+                            <span class="detail-value" id="participatedCount">0</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Member Since</span>
+                            <span class="detail-value" id="memberSince">-</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Experience Level</span>
+                            <span class="detail-value" id="experienceLevel">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookmarked Hackathons Section -->
+            <div class="activity-section">
+                <div class="section-title">
+                    🔖 Bookmarked Hackathons
+                    <span id="bookmarkedBadge" class="status-badge status-upcoming">0</span>
+                </div>
+                <div id="bookmarkedHackathons" class="hackathon-grid">
+                    <!-- Bookmarked hackathons will be populated here -->
+                </div>
+            </div>
+
+            <!-- Participation History Section -->
+            <div class="activity-section">
+                <div class="section-title">
+                    🏆 Participation History
+                    <span id="participationBadge" class="status-badge status-completed">0</span>
+                </div>
+                <div id="participationHistory" class="hackathon-grid">
+                    <!-- Participation history will be populated here -->
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div class="mini-card">
-          <div class="mini-left">W</div>
-          <div class="mini-content">
-            <div class="mini-title">Web Performance Jam</div>
-            <div class="mini-sub">by PerfNow Conference • <span class="status-pill ongoing">ONGOING</span> <span class="status-pill">HYBRID</span> <span class="status-pill">ADVANCED</span></div>
-            <div style="margin-top:8px;color:var(--gray-muted);font-size:13px">Amsterdam & Remote • $10,000 • 11/25/2024 • 2-5 members</div>
-          </div>
-          <div style="display:flex;align-items:center"><button class="badge" aria-label="register">Register</button></div>
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>✏️ Edit Profile</h2>
+            <form class="edit-form" onsubmit="saveProfile(event)">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <div class="section-title">👤 Basic Information</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editName">Full Name</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" id="editEmail" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editAge">Age</label>
+                            <input type="number" id="editAge" min="13" max="100">
+                        </div>
+                        <div class="form-group">
+                            <label for="editGender">Gender</label>
+                            <select id="editGender">
+                                <option value="prefer-not-to-say">Prefer not to say</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="non-binary">Non-binary</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone Number</label>
+                        <input type="tel" id="editPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editBio">Bio</label>
+                        <textarea id="editBio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Location & Education -->
+                <div class="form-section">
+                    <div class="section-title">🌍 Location & Education</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCity">City</label>
+                            <input type="text" id="editCity">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCountry">Country</label>
+                            <input type="text" id="editCountry">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editEducationLevel">Education Level</label>
+                            <select id="editEducationLevel">
+                                <option value="">Select Level</option>
+                                <option value="high-school">High School</option>
+                                <option value="bachelors">Bachelor's Degree</option>
+                                <option value="masters">Master's Degree</option>
+                                <option value="phd">PhD</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEducationField">Field of Study</label>
+                            <input type="text" id="editEducationField" placeholder="e.g., Computer Science">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editJobTitle">Job Title</label>
+                            <input type="text" id="editJobTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCompany">Company</label>
+                            <input type="text" id="editCompany">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editExperience">Experience Level</label>
+                        <select id="editExperience">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="form-section">
+                    <div class="section-title">🛠️ Skills</div>
+                    <div class="skills-input">
+                        <input type="text" id="skillInput" placeholder="Add a skill...">
+                        <button type="button" class="add-skill-btn" onclick="addSkill()">Add</button>
+                    </div>
+                    <div class="skills-display" id="skillsDisplay">
+                        <!-- Skills will be displayed here -->
+                    </div>
+                </div>
+
+                <!-- Preferences -->
+                <div class="form-section">
+                    <div class="section-title">🎯 Preferences</div>
+                    <div class="form-group">
+                        <label>Preferred Domains</label>
+                        <div class="checkbox-grid" id="editDomainsCheckboxes">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTeamPreference">Team Preference</label>
+                            <select id="editTeamPreference">
+                                <option value="any">Any</option>
+                                <option value="solo">Solo</option>
+                                <option value="small-team">Small Team (2-4)</option>
+                                <option value="large-team">Large Team (5+)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTravelWillingness">Travel Willingness</label>
+                            <select id="editTravelWillingness">
+                                <option value="local-only">Local Only</option>
+                                <option value="regional">Regional</option>
+                                <option value="national">National</option>
+                                <option value="international">International</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="editAvailableWeekends"> Available on Weekends
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="editAvailableWeekdays"> Available on Weekdays
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="save-btn">💾 Save Changes</button>
+            </form>
         </div>
-      </div>
     </div>
 
-  </section>
-</main>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3001/api' : '/api';
+        let currentUser = null;
 
-<!-- Simple Edit Modal (very light) -->
-<div id="editModal" role="dialog" aria-modal="true" aria-hidden="true" style="position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9999">
-  <div style="width:420px;max-width:92%;border-radius:14px;background:linear-gradient(180deg, rgba(12,12,12,0.96), rgba(8,8,8,0.98));border:0.5px solid rgba(255,255,255,0.03);padding:18px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <strong style="font-size:16px">Edit Profile</strong>
-      <button id="closeEdit" style="background:transparent;border:0;color:var(--gray-muted);font-size:18px;cursor:pointer">✕</button>
-    </div>
-    <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px">
-      <input id="inName" placeholder="Name" style="padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.03);color:var(--silver-primary)" />
-      <input id="inEmail" placeholder="Email" style="padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.03);color:var(--silver-primary)" />
-      <div style="display:flex;gap:8px"><input id="inPhone" placeholder="Phone" style="flex:1;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.03);color:var(--silver-primary)" /><input id="inAge" placeholder="Age" style="width:88px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);border:0.5px solid rgba(255,255,255,0.03);color:var(--silver-primary)"/></div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:4px">
-        <button id="saveEdit" style="padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--blue-apple),var(--purple-premium));border:0;color:white;font-weight:700;cursor:pointer">Save</button>
-      </div>
-    </div>
-  </div>
-</div>
+        // Check authentication and load profile
+        async function loadProfile() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to view your profile');
+                window.location.href = '/';
+                return;
+            }
 
-<!-- === Minimal JS for interactivity (single-file) === -->
-<script>
-  const editBtn = document.getElementById('editProfileBtn');
-  const editModal = document.getElementById('editModal');
-  const closeEdit = document.getElementById('closeEdit');
-  const saveEdit = document.getElementById('saveEdit');
+            try {
+                const response = await fetch(`${API_BASE}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
 
-  editBtn.addEventListener('click', ()=> {
-    document.getElementById('inName').value = document.getElementById('profile-name').textContent;
-    document.getElementById('inEmail').value = document.getElementById('profile-email').textContent;
-    document.getElementById('inPhone').value = document.getElementById('meta-phone').textContent;
-    document.getElementById('inAge').value = document.getElementById('meta-age').textContent;
-    editModal.style.display = 'flex'; editModal.setAttribute('aria-hidden','false');
-  });
+                if (response.ok) {
+                    const data = await response.json();
+                    currentUser = data.data;
+                    displayProfile(currentUser);
+                    await loadBookmarkedHackathons();
+                    await loadParticipationHistory();
+                } else {
+                    localStorage.removeItem('token');
+                    alert('Session expired. Please login again.');
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                alert('Error loading profile. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('profileContent').style.display = 'block';
+            }
+        }
 
-  closeEdit.addEventListener('click', ()=> { editModal.style.display='none'; editModal.setAttribute('aria-hidden','true'); });
-  saveEdit.addEventListener('click', ()=> {
-    const name = document.getElementById('inName').value || 'Demo';
-    const email = document.getElementById('inEmail').value || 'demo@gmail.com';
-    const phone = document.getElementById('inPhone').value || 'Not specified';
-    const age = document.getElementById('inAge').value || '—';
-    document.getElementById('profile-name').textContent = name;
-    document.getElementById('profile-email').textContent = email;
-    document.getElementById('meta-phone').textContent = phone;
-    document.getElementById('meta-age').textContent = age;
-    // avatar initial update
-    document.getElementById('avatar').textContent = (name.trim()[0] || 'D').toUpperCase();
-    editModal.style.display='none'; editModal.setAttribute('aria-hidden','true');
-  });
+        // Display user profile information
+        function displayProfile(user) {
+            // Basic info
+            document.getElementById('profileAvatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('profileName').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileBio').textContent = user.profile?.bio || 'No bio available';
 
-  // keyboard-friendly: close modal on ESC
-  document.addEventListener('keydown', (e)=> {
-    if(e.key === 'Escape' && editModal.style.display === 'flex') { closeEdit.click(); }
-  });
+            // Profile details
+            const detailsContainer = document.getElementById('profileDetails');
+            const details = [
+                { label: 'Age', value: user.age || 'Not specified' },
+                { label: 'Gender', value: user.gender?.replace('-', ' ') || 'Not specified' },
+                { label: 'Phone', value: user.phoneNumber || 'Not provided' },
+                { label: 'Location', value: user.profile?.location ? `${user.profile.location.city}, ${user.profile.location.country}` : 'Not specified' },
+                { label: 'Education', value: user.profile?.education?.level ? `${user.profile.education.level} in ${user.profile.education.field}` : 'Not specified' },
+                { label: 'Occupation', value: user.profile?.occupation?.title ? `${user.profile.occupation.title} at ${user.profile.occupation.company}` : 'Not specified' }
+            ];
 
-function toggleTheme() {
-  document.body.classList.toggle("light-mode");
-}
+            detailsContainer.innerHTML = details.map(detail => `
+                <div class="detail-row">
+                    <span class="detail-label">${detail.label}</span>
+                    <span class="detail-value">${detail.value}</span>
+                </div>
+            `).join('');
 
-</script>
+            // Skills
+            const skillsList = document.getElementById('skillsList');
+            if (user.profile?.skills && user.profile.skills.length > 0) {
+                skillsList.innerHTML = user.profile.skills.map(skill => 
+                    `<span class="skill-tag">${skill}</span>`
+                ).join('');
+            } else {
+                skillsList.innerHTML = '<span class="skill-tag">No skills listed</span>';
+            }
 
+            // Preferences
+            const preferencesContent = document.getElementById('preferencesContent');
+            const preferences = [
+                { 
+                    label: 'Preferred Domains', 
+                    value: user.preferences?.domains && user.preferences.domains.length > 0 
+                        ? user.preferences.domains.map(domain => `<span class="domain-tag">${domain.replace(/-/g, ' ')}</span>`).join(' ')
+                        : 'No preferences set'
+                },
+                { label: 'Team Preference', value: user.preferences?.teamPreference?.replace('-', ' ') || 'Any' },
+                { label: 'Travel Willingness', value: user.preferences?.travelWillingness?.replace('-', ' ') || 'Local only' },
+                { label: 'Available Weekends', value: user.preferences?.availableWeekends ? 'Yes' : 'No' },
+                { label: 'Available Weekdays', value: user.preferences?.availableWeekdays ? 'Yes' : 'No' }
+            ];
+
+            preferencesContent.innerHTML = preferences.map(pref => `
+                <div class="preference-item">
+                    <div class="preference-label">${pref.label}</div>
+                    <div class="preference-value">${pref.value}</div>
+                </div>
+            `).join('');
+
+            // Quick stats
+            document.getElementById('bookmarkedCount').textContent = user.bookmarkedHackathons?.length || 0;
+            document.getElementById('participatedCount').textContent = user.participatedHackathons?.length || 0;
+            document.getElementById('memberSince').textContent = new Date(user.createdAt).toLocaleDateString();
+            document.getElementById('experienceLevel').textContent = user.profile?.experience || 'Not specified';
+        }
+
+        // Load bookmarked hackathons
+        async function loadBookmarkedHackathons() {
+            const container = document.getElementById('bookmarkedHackathons');
+            const badge = document.getElementById('bookmarkedBadge');
+            
+            if (!currentUser.bookmarkedHackathons || currentUser.bookmarkedHackathons.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔖</div>
+                        <p>No bookmarked hackathons yet</p>
+                        <p>Start exploring and bookmark interesting events!</p>
+                    </div>
+                `;
+                badge.textContent = '0';
+                return;
+            }
+
+            try {
+                const hackathonPromises = currentUser.bookmarkedHackathons.map(id => 
+                    fetch(`${API_BASE}/hackathons/${id}`).then(res => res.json())
+                );
+                
+                const hackathonResults = await Promise.all(hackathonPromises);
+                const hackathons = hackathonResults.filter(result => result.success).map(result => result.data);
+
+                badge.textContent = hackathons.length;
+                
+                if (hackathons.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔖</div>
+                            <p>No bookmarked hackathons found</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = hackathons.map(hackathon => `
+                    <div class="hackathon-mini-card">
+                        <div class="hackathon-title">${hackathon.title}</div>
+                        <div class="hackathon-organizer">by ${hackathon.organizer}</div>
+                        <div class="hackathon-date">📅 ${new Date(hackathon.startDate).toLocaleDateString()}</div>
+                        <div class="hackathon-date">💰 ${hackathon.prizePool}</div>
+                        <span class="status-badge status-${hackathon.status}">${hackathon.status}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading bookmarked hackathons:', error);
+                container.innerHTML = '<p>Error loading bookmarked hackathons</p>';
+            }
+        }
+
+        // Load participation history
+        async function loadParticipationHistory() {
+            const container = document.getElementById('participationHistory');
+            const badge = document.getElementById('participationBadge');
+            
+            if (!currentUser.participatedHackathons || currentUser.participatedHackathons.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏆</div>
+                        <p>No participation history yet</p>
+                        <p>Register for hackathons to build your portfolio!</p>
+                    </div>
+                `;
+                badge.textContent = '0';
+                return;
+            }
+
+            try {
+                const hackathonPromises = currentUser.participatedHackathons.map(participation => 
+                    fetch(`${API_BASE}/hackathons/${participation.hackathon}`).then(res => res.json())
+                        .then(result => ({ ...result, participationStatus: participation.status, registeredAt: participation.registeredAt }))
+                );
+                
+                const hackathonResults = await Promise.all(hackathonPromises);
+                const hackathons = hackathonResults.filter(result => result.success);
+
+                badge.textContent = hackathons.length;
+                
+                if (hackathons.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🏆</div>
+                            <p>No participation history found</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = hackathons.map(result => {
+                    const hackathon = result.data;
+                    return `
+                        <div class="hackathon-mini-card">
+                            <div class="hackathon-title">${hackathon.title}</div>
+                            <div class="hackathon-organizer">by ${hackathon.organizer}</div>
+                            <div class="hackathon-date">📅 ${new Date(hackathon.startDate).toLocaleDateString()}</div>
+                            <div class="hackathon-date">📝 Registered: ${new Date(result.registeredAt).toLocaleDateString()}</div>
+                            <span class="status-badge status-${result.participationStatus}">${result.participationStatus}</span>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading participation history:', error);
+                container.innerHTML = '<p>Error loading participation history</p>';
+            }
+        }
+
+        // Domain options for preferences
+        const domains = [
+            'artificial-intelligence', 'machine-learning', 'blockchain', 'web-development',
+            'mobile-development', 'game-development', 'cybersecurity', 'data-science',
+            'cloud-computing', 'iot', 'fintech', 'healthtech', 'edtech', 'greentech',
+            'social-impact', 'hardware', 'robotics', 'ar-vr', 'quantum-computing', 'devops'
+        ];
+
+        let userSkills = [];
+
+        // Open edit profile modal
+        function openEditModal() {
+            populateEditForm();
+            populateEditDomainCheckboxes();
+            document.getElementById('editProfileModal').style.display = 'block';
+        }
+
+        // Close edit profile modal
+        function closeEditModal() {
+            document.getElementById('editProfileModal').style.display = 'none';
+        }
+
+        // Populate edit form with current user data
+        function populateEditForm() {
+            if (!currentUser) return;
+
+            // Basic info
+            document.getElementById('editName').value = currentUser.name || '';
+            document.getElementById('editEmail').value = currentUser.email || '';
+            document.getElementById('editAge').value = currentUser.age || '';
+            document.getElementById('editGender').value = currentUser.gender || 'prefer-not-to-say';
+            document.getElementById('editPhone').value = currentUser.phoneNumber || '';
+            document.getElementById('editBio').value = currentUser.profile?.bio || '';
+
+            // Location
+            document.getElementById('editCity').value = currentUser.profile?.location?.city || '';
+            document.getElementById('editCountry').value = currentUser.profile?.location?.country || '';
+
+            // Education & Work
+            document.getElementById('editEducationLevel').value = currentUser.profile?.education?.level || '';
+            document.getElementById('editEducationField').value = currentUser.profile?.education?.field || '';
+            document.getElementById('editJobTitle').value = currentUser.profile?.occupation?.title || '';
+            document.getElementById('editCompany').value = currentUser.profile?.occupation?.company || '';
+            document.getElementById('editExperience').value = currentUser.profile?.experience || 'beginner';
+
+            // Skills
+            userSkills = currentUser.profile?.skills ? [...currentUser.profile.skills] : [];
+            displaySkills();
+
+            // Preferences
+            document.getElementById('editTeamPreference').value = currentUser.preferences?.teamPreference || 'any';
+            document.getElementById('editTravelWillingness').value = currentUser.preferences?.travelWillingness || 'local-only';
+            document.getElementById('editAvailableWeekends').checked = currentUser.preferences?.availableWeekends || false;
+            document.getElementById('editAvailableWeekdays').checked = currentUser.preferences?.availableWeekdays || false;
+        }
+
+        // Populate domain checkboxes for editing
+        function populateEditDomainCheckboxes() {
+            const container = document.getElementById('editDomainsCheckboxes');
+            const userDomains = currentUser?.preferences?.domains || [];
+            
+            container.innerHTML = domains.map(domain => {
+                const checked = userDomains.includes(domain) ? 'checked' : '';
+                const displayName = domain.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                return `
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="edit_${domain}" value="${domain}" ${checked}>
+                        <label for="edit_${domain}">${displayName}</label>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Add skill function
+        function addSkill() {
+            const skillInput = document.getElementById('skillInput');
+            const skill = skillInput.value.trim();
+            
+            if (skill && !userSkills.includes(skill)) {
+                userSkills.push(skill);
+                skillInput.value = '';
+                displaySkills();
+            }
+        }
+
+        // Display skills with remove option
+        function displaySkills() {
+            const container = document.getElementById('skillsDisplay');
+            container.innerHTML = userSkills.map(skill => `
+                <span class="skill-tag">
+                    ${skill}
+                    <span class="remove-skill" onclick="removeSkill('${skill}')">&times;</span>
+                </span>
+            `).join('');
+        }
+
+        // Remove skill function
+        function removeSkill(skill) {
+            userSkills = userSkills.filter(s => s !== skill);
+            displaySkills();
+        }
+
+        // Save profile function
+        async function saveProfile(event) {
+            event.preventDefault();
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to update your profile');
+                return;
+            }
+
+            // Collect form data
+            const formData = {
+                name: document.getElementById('editName').value,
+                email: document.getElementById('editEmail').value,
+                age: parseInt(document.getElementById('editAge').value) || undefined,
+                gender: document.getElementById('editGender').value,
+                phoneNumber: document.getElementById('editPhone').value,
+                profile: {
+                    bio: document.getElementById('editBio').value,
+                    location: {
+                        city: document.getElementById('editCity').value,
+                        country: document.getElementById('editCountry').value
+                    },
+                    education: {
+                        level: document.getElementById('editEducationLevel').value,
+                        field: document.getElementById('editEducationField').value
+                    },
+                    occupation: {
+                        title: document.getElementById('editJobTitle').value,
+                        company: document.getElementById('editCompany').value
+                    },
+                    experience: document.getElementById('editExperience').value,
+                    skills: userSkills
+                },
+                preferences: {
+                    domains: Array.from(document.querySelectorAll('#editDomainsCheckboxes input:checked')).map(cb => cb.value),
+                    teamPreference: document.getElementById('editTeamPreference').value,
+                    travelWillingness: document.getElementById('editTravelWillingness').value,
+                    availableWeekends: document.getElementById('editAvailableWeekends').checked,
+                    availableWeekdays: document.getElementById('editAvailableWeekdays').checked
+                }
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('Profile updated successfully!');
+                    currentUser = result.data;
+                    displayProfile(currentUser);
+                    closeEditModal();
+                } else {
+                    alert(result.message || 'Error updating profile');
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error updating profile. Please try again.');
+            }
+        }
+
+        // Allow Enter key to add skills
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillInput = document.getElementById('skillInput');
+            if (skillInput) {
+                skillInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        addSkill();
+                    }
+                });
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('editProfileModal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
+        }
+
+        // Load profile on page load
+        window.addEventListener('load', loadProfile);
+    </script>
 </body>
 </html>

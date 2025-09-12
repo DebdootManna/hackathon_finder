@@ -668,11 +668,24 @@
             populateDomainCheckboxes();
         }
 
+        // Check auth status on page load and navigation
+        window.addEventListener('load', initApp);
+        window.addEventListener('pageshow', function(event) {
+            // Re-check auth status when user navigates back
+            if (event.persisted) {
+                checkAuthStatus();
+            }
+        });
+
         // Check if user is logged in
         function checkAuthStatus() {
             const token = localStorage.getItem('token');
             if (token) {
                 fetchUserProfile(token);
+            } else {
+                // Ensure UI shows guest state when no token
+                document.getElementById('guestSection').classList.remove('hidden');
+                document.getElementById('userSection').classList.add('hidden');
             }
         }
 

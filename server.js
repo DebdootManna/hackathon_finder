@@ -24,8 +24,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 app.use('/api/hackathons', require('./routes/hackathons'));
-app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/admin', require('./routes/admin'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {

@@ -12,10 +12,13 @@ router.post('/seed', async (req, res) => {
     const existingHackathons = await Hackathon.countDocuments();
     const existingUsers = await User.countDocuments();
 
-    if (existingHackathons > 0 || existingUsers > 0) {
+    // Allow re-seeding if requested via query parameter
+    const forceReseed = req.query.force === 'true';
+    
+    if ((existingHackathons > 0 || existingUsers > 0) && !forceReseed) {
       return res.json({
         success: true,
-        message: 'Database already seeded',
+        message: 'Database already seeded. Use ?force=true to re-seed.',
         data: {
           hackathons: existingHackathons,
           users: existingUsers

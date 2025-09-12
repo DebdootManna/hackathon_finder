@@ -218,16 +218,16 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    const { hackathons, users, statusDistribution, isEmpty } = data.data;
+                    const { hackathons, users, statusDistribution = {}, isEmpty } = data.data;
                     
                     statusContent.innerHTML = `
                         <div class="status-grid">
                             <div class="status-item">
-                                <div class="status-number">${hackathons}</div>
+                                <div class="status-number">${hackathons || 0}</div>
                                 <div class="status-label">Hackathons</div>
                             </div>
                             <div class="status-item">
-                                <div class="status-number">${users}</div>
+                                <div class="status-number">${users || 0}</div>
                                 <div class="status-label">Users</div>
                             </div>
                             <div class="status-item">
@@ -256,7 +256,20 @@
             const seedBtn = document.getElementById('seedBtn');
             const resultDiv = document.getElementById('result');
             
-            if (!confirm('Are you sure you want to seed the database? This will add sample data.')) {
+            // Check if database already has data
+            const statusResponse = await fetch(`${API_BASE}/admin/status`);
+            const statusData = await statusResponse.json();
+            const hasData = statusData.success && (statusData.data.hackathons > 0 || statusData.data.users > 0);
+            
+            let confirmMessage = 'Are you sure you want to seed the database? This will add sample data.';
+            let seedUrl = `${API_BASE}/admin/seed`;
+            
+            if (hasData) {
+                confirmMessage = 'Database already has data. Do you want to clear and re-seed with the updated dataset? This will replace all existing data.';
+                seedUrl = `${API_BASE}/admin/seed?force=true`;
+            }
+            
+            if (!confirm(confirmMessage)) {
                 return;
             }
 
@@ -265,7 +278,7 @@
             resultDiv.innerHTML = '<div class="loading">Seeding database with sample data...</div>';
 
             try {
-                const response = await fetch(`${API_BASE}/admin/seed`, {
+                const response = await fetch(seedUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -65,7 +65,7 @@ hackathon_finder/
 
 ### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/DebdootManna/hackathon_finder/
 cd hackathon_finder
 ```
 
